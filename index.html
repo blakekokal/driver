@@ -144,7 +144,7 @@
             background: #2a2a2a;
             border-radius: 15px;
             padding: 15px;
-            margin-top: 15px;
+            margin-bottom: 15px;
             border: 1px solid #333;
         }
 
@@ -304,6 +304,11 @@
         </div>
 
         <div class="content">
+            <div class="results" id="results">
+                <h2>Optimal Results</h2>
+                <div class="no-data">Adjust the settings to see results</div>
+            </div>
+
             <div class="control-group">
                 <label for="optimizeMode">Optimization Mode</label>
                 <select id="optimizeMode" onchange="calculateResults()">
@@ -314,9 +319,15 @@
             </div>
 
             <div class="control-group">
-                <label for="clubSpeed">Club Speed (mph)</label>
-                <input type="number" id="clubSpeed" min="60" max="140" step="1" value="95" oninput="onClubSpeedOrAttackAngleChange()">
-                <div class="input-hint">Typical range: 75-120 mph</div>
+                <label for="clubSpeed">Club Speed</label>
+                <div class="slider-container">
+                    <input type="range" id="clubSpeed" min="60" max="140" step="1" value="95" oninput="onClubSpeedOrAttackAngleChange()">
+                    <div class="value-display">
+                        <span>60 mph</span>
+                        <span class="current-value" id="clubSpeedValue">95 mph</span>
+                        <span>140 mph</span>
+                    </div>
+                </div>
             </div>
 
             <div class="control-group">
@@ -335,11 +346,6 @@
                 <label for="ballSpeed">Ball Speed (mph)</label>
                 <input type="number" id="ballSpeed" min="80" max="200" step="1" value="138" oninput="onBallSpeedManualInput()">
                 <div class="input-hint">Auto-calculated (or enter custom value)</div>
-            </div>
-
-            <div class="results" id="results">
-                <h2>Optimal Results</h2>
-                <div class="no-data">Adjust the settings to see results</div>
             </div>
         </div>
     </div>
@@ -537,7 +543,8 @@
             const clubSpeed = parseFloat(document.getElementById('clubSpeed').value);
             const attackAngle = parseFloat(document.getElementById('attackAngle').value);
 
-            // Update attack angle display
+            // Update display values
+            document.getElementById('clubSpeedValue').textContent = clubSpeed + ' mph';
             document.getElementById('attackAngleValue').textContent = attackAngle + '°';
 
             // Validate inputs
