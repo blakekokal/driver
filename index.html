@@ -84,6 +84,17 @@
             margin-top: 3px;
         }
 
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .input-column {
+            display: flex;
+            flex-direction: column;
+        }
+
         .slider-container {
             position: relative;
             padding: 5px 0;
@@ -343,9 +354,18 @@
             </div>
 
             <div class="control-group">
-                <label for="ballSpeed">Ball Speed (mph)</label>
-                <input type="number" id="ballSpeed" min="80" max="200" step="1" value="138" oninput="onBallSpeedManualInput()">
-                <div class="input-hint">Auto-calculated (or enter custom value)</div>
+                <div class="input-row">
+                    <div class="input-column">
+                        <label for="ballSpeed">Ball Speed (mph)</label>
+                        <input type="number" id="ballSpeed" min="80" max="200" step="1" value="138" oninput="onBallSpeedManualInput()">
+                        <div class="input-hint">Auto-calculated</div>
+                    </div>
+                    <div class="input-column">
+                        <label for="smashFactor">Smash Factor</label>
+                        <input type="number" id="smashFactor" min="1.0" max="1.6" step="0.01" value="1.45" oninput="onSmashFactorManualInput()">
+                        <div class="input-hint">Auto-calculated</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -459,6 +479,7 @@
         };
 
         let manualBallSpeed = false; // Track if user manually entered ball speed
+        let manualSmashFactor = false; // Track if user manually entered smash factor
 
         function interpolate(value, data1, data2, key1, key2) {
             if (!data1 || !data2) return null;
@@ -530,11 +551,19 @@
 
         function onBallSpeedManualInput() {
             manualBallSpeed = true;
+            manualSmashFactor = false;
+            calculateResults();
+        }
+
+        function onSmashFactorManualInput() {
+            manualSmashFactor = true;
+            manualBallSpeed = false;
             calculateResults();
         }
 
         function onClubSpeedOrAttackAngleChange() {
             manualBallSpeed = false;
+            manualSmashFactor = false;
             calculateResults();
         }
 
@@ -571,14 +600,24 @@
                 }
             }
 
-            // Auto-update ball speed unless user manually entered it
-            if (!manualBallSpeed) {
+            // Auto-update ball speed and smash factor unless user manually entered them
+            if (!manualBallSpeed && !manualSmashFactor) {
+                // Auto-calculate both from data
                 document.getElementById('ballSpeed').value = Math.round(data.ballSpeed);
-            } else {
-                // Use manual ball speed
+                document.getElementById('smashFactor').value = (data.ballSpeed / clubSpeed).toFixed(2);
+            } else if (manualBallSpeed) {
+                // Use manual ball speed, calculate smash factor
                 const ballSpeed = parseFloat(document.getElementById('ballSpeed').value);
                 if (!isNaN(ballSpeed)) {
                     data.ballSpeed = ballSpeed;
+                    document.getElementById('smashFactor').value = (ballSpeed / clubSpeed).toFixed(2);
+                }
+            } else if (manualSmashFactor) {
+                // Use manual smash factor, calculate ball speed
+                const smashFactor = parseFloat(document.getElementById('smashFactor').value);
+                if (!isNaN(smashFactor)) {
+                    data.ballSpeed = Math.round(clubSpeed * smashFactor);
+                    document.getElementById('ballSpeed').value = data.ballSpeed;
                 }
             }
 
@@ -589,7 +628,7 @@
             data.launchAngle = data.launchAngle.toFixed(1);
             data.dynamicLoft = data.dynamicLoft.toFixed(1);
             data.ballSpeed = Math.round(data.ballSpeed);
-
+            
             displayResults(data, mode);
         }
 
