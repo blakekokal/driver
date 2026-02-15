@@ -95,6 +95,37 @@
             flex-direction: column;
         }
 
+        .mode-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .mode-btn {
+            padding: 10px;
+            background: #2a2a2a;
+            color: #999;
+            border: 2px solid #333;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .mode-btn:hover {
+            border-color: #555;
+            color: #ccc;
+        }
+
+        .mode-btn.active {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+        }
+
         .slider-container {
             position: relative;
             padding: 5px 0;
@@ -321,12 +352,12 @@
             </div>
 
             <div class="control-group">
-                <label for="optimizeMode">Optimization Mode</label>
-                <select id="optimizeMode" onchange="calculateResults()">
-                    <option value="carry">Optimize for Carry Distance</option>
-                    <option value="total">Optimize for Total Distance</option>
-                    <option value="both">Optimize for Carry + Total</option>
-                </select>
+                <label>Optimization Mode</label>
+                <div class="mode-buttons">
+                    <button class="mode-btn active" data-mode="carry" onclick="setOptimizeMode('carry')">Carry</button>
+                    <button class="mode-btn" data-mode="total" onclick="setOptimizeMode('total')">Total</button>
+                    <button class="mode-btn" data-mode="both" onclick="setOptimizeMode('both')">Carry+Total</button>
+                </div>
             </div>
 
             <div class="control-group">
@@ -478,8 +509,72 @@
             }
         };
 
+        // Function to extrapolate data for speeds outside the original range (60-74 and 121-140)
+        function extrapolateData(dataSet) {
+            const speeds = Object.keys(dataSet).map(Number).sort((a, b) => a - b);
+            const minSpeed = speeds[0]; // 75
+            const maxSpeed = speeds[speeds.length - 1]; // 120
+            const angles = ['-5', '0', '5'];
+            
+            // Extrapolate below minimum speed (60-74)
+            for (let speed = 60; speed < minSpeed; speed++) {
+                dataSet[speed] = {};
+                angles.forEach(angle => {
+                    const data1 = dataSet[minSpeed][angle];
+                    const data2 = dataSet[minSpeed + 5][angle];
+                    
+                    dataSet[speed][angle] = {};
+                    for (let key in data1) {
+                        // Calculate the rate of change per mph
+                        const rate = (data2[key] - data1[key]) / 5;
+                        // Extrapolate backwards
+                        dataSet[speed][angle][key] = data1[key] + rate * (speed - minSpeed);
+                    }
+                });
+            }
+            
+            // Extrapolate above maximum speed (121-140)
+            for (let speed = maxSpeed + 1; speed <= 140; speed++) {
+                dataSet[speed] = {};
+                angles.forEach(angle => {
+                    const data1 = dataSet[maxSpeed - 5][angle];
+                    const data2 = dataSet[maxSpeed][angle];
+                    
+                    dataSet[speed][angle] = {};
+                    for (let key in data2) {
+                        // Calculate the rate of change per mph
+                        const rate = (data2[key] - data1[key]) / 5;
+                        // Extrapolate forwards
+                        dataSet[speed][angle][key] = data2[key] + rate * (speed - maxSpeed);
+                    }
+                });
+            }
+            
+            return dataSet;
+        }
+
+        // Extrapolate both datasets to cover 60-140 mph
+        extrapolateData(carryData);
+        extrapolateData(totalData);
+
         let manualBallSpeed = false; // Track if user manually entered ball speed
         let manualSmashFactor = false; // Track if user manually entered smash factor
+        let currentMode = 'carry'; // Track current optimization mode
+
+        function setOptimizeMode(mode) {
+            currentMode = mode;
+            
+            // Update button active states
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                if (btn.getAttribute('data-mode') === mode) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            calculateResults();
+        }
 
         function interpolate(value, data1, data2, key1, key2) {
             if (!data1 || !data2) return null;
@@ -568,7 +663,7 @@
         }
 
         function calculateResults() {
-            const mode = document.getElementById('optimizeMode').value;
+            const mode = currentMode;
             const clubSpeed = parseFloat(document.getElementById('clubSpeed').value);
             const attackAngle = parseFloat(document.getElementById('attackAngle').value);
 
