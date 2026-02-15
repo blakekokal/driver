@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackMan Driver Optimizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .control-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="number"] {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-hint {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .slider-container {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            outline: none;
+            padding: 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .value-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .current-value {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .results {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .results h2 {
+            color: #d63031;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .result-unit {
+            font-size: 0.8em;
+            color: #999;
+            margin-left: 5px;
+        }
+
+        .distance-highlight {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .distance-highlight .result-value {
+            color: white;
+            font-size: 3em;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⛳ TrackMan Driver Optimizer</h1>
+            <p>Find Your Perfect Drive</p>
+        </div>
+
+        <div class="content">
+            <div class="control-group">
+                <label for="optimizeMode">Optimization Mode</label>
+                <select id="optimizeMode" onchange="calculateResults()">
+                    <option value="carry">Optimize for Carry Distance</option>
+                    <option value="total">Optimize for Total Distance</option>
+                    <option value="both">Optimize for Carry + Total</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="clubSpeed">Club Speed (mph)</label>
+                <input type="number" id="clubSpeed" min="60" max="140" step="1" value="95" oninput="onClubSpeedOrAttackAngleChange()">
+                <div class="input-hint">Typical range: 75-120 mph</div>
+            </div>
+
+            <div class="control-group">
+                <label for="attackAngle">Attack Angle</label>
+                <div class="slider-container">
+                    <input type="range" id="attackAngle" min="-5" max="5" step="0.5" value="0" oninput="onClubSpeedOrAttackAngleChange()">
+                    <div class="value-display">
+                        <span>-5°</span>
+                        <span class="current-value" id="attackAngleValue">0°</span>
+                        <span>+5°</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="ballSpeed">Ball Speed (mph)</label>
+                <input type="number" id="ballSpeed" min="80" max="200" step="1" value="138" oninput="onBallSpeedManualInput()">
+                <div class="input-hint">Auto-calculated (or enter custom value)</div>
+            </div>
+
+            <div class="results" id="results">
+                <h2>Optimal Results</h2>
+                <div class="no-data">Adjust the settings to see results</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // TrackMan data
+        const carryData = {
+            75: {
+                '-5': {ballSpeed: 104, launchAngle: 14.6, spinRate: 3722, carry: 143, total: 166, dynamicLoft: 18.2},
+                '0': {ballSpeed: 107, launchAngle: 16.3, spinRate: 3121, carry: 154, total: 178, dynamicLoft: 19.2},
+                '5': {ballSpeed: 108, launchAngle: 19.2, spinRate: 2720, carry: 164, total: 187, dynamicLoft: 21.8}
+            },
+            80: {
+                '-5': {ballSpeed: 113, launchAngle: 12.9, spinRate: 3652, carry: 160, total: 176, dynamicLoft: 16.2},
+                '0': {ballSpeed: 115, launchAngle: 15.5, spinRate: 3179, carry: 171, total: 187, dynamicLoft: 18.3},
+                '5': {ballSpeed: 116, launchAngle: 18.0, spinRate: 2648, carry: 181, total: 197, dynamicLoft: 20.3}
+            },
+            85: {
+                '-5': {ballSpeed: 121, launchAngle: 11.9, spinRate: 3669, carry: 175, total: 199, dynamicLoft: 15.0},
+                '0': {ballSpeed: 123, launchAngle: 14.5, spinRate: 3164, carry: 187, total: 211, dynamicLoft: 17.1},
+                '5': {ballSpeed: 124, launchAngle: 17.0, spinRate: 2596, carry: 197, total: 223, dynamicLoft: 19.1}
+            },
+            90: {
+                '-5': {ballSpeed: 129, launchAngle: 11.1, spinRate: 3689, carry: 191, total: 215, dynamicLoft: 14.0},
+                '0': {ballSpeed: 131, launchAngle: 13.4, spinRate: 3093, carry: 203, total: 228, dynamicLoft: 15.8},
+                '5': {ballSpeed: 132, launchAngle: 16.4, spinRate: 2633, carry: 214, total: 239, dynamicLoft: 18.5}
+            },
+            95: {
+                '-5': {ballSpeed: 137, launchAngle: 9.9, spinRate: 3626, carry: 207, total: 243, dynamicLoft: 12.6},
+                '0': {ballSpeed: 138, launchAngle: 12.7, spinRate: 3114, carry: 219, total: 244, dynamicLoft: 15.0},
+                '5': {ballSpeed: 140, launchAngle: 15.7, spinRate: 2595, carry: 231, total: 256, dynamicLoft: 17.6}
+            },
+            100: {
+                '-5': {ballSpeed: 144, launchAngle: 9.6, spinRate: 3722, carry: 222, total: 244, dynamicLoft: 12.2},
+                '0': {ballSpeed: 146, launchAngle: 12.1, spinRate: 3118, carry: 235, total: 272, dynamicLoft: 14.3},
+                '5': {ballSpeed: 148, launchAngle: 14.9, spinRate: 2538, carry: 247, total: 272, dynamicLoft: 16.7}
+            },
+            105: {
+                '-5': {ballSpeed: 152, launchAngle: 8.7, spinRate: 3675, carry: 237, total: 260, dynamicLoft: 11.1},
+                '0': {ballSpeed: 154, launchAngle: 11.2, spinRate: 3038, carry: 251, total: 275, dynamicLoft: 13.2},
+                '5': {ballSpeed: 155, launchAngle: 14.5, spinRate: 2563, carry: 263, total: 288, dynamicLoft: 16.2}
+            },
+            110: {
+                '-5': {ballSpeed: 160, launchAngle: 7.7, spinRate: 3570, carry: 252, total: 275, dynamicLoft: 9.9},
+                '0': {ballSpeed: 162, launchAngle: 10.5, spinRate: 2970, carry: 266, total: 291, dynamicLoft: 12.3},
+                '5': {ballSpeed: 163, launchAngle: 13.7, spinRate: 2435, carry: 279, total: 305, dynamicLoft: 15.2}
+            },
+            115: {
+                '-5': {ballSpeed: 168, launchAngle: 7.0, spinRate: 3548, carry: 266, total: 290, dynamicLoft: 9.2},
+                '0': {ballSpeed: 170, launchAngle: 9.8, spinRate: 2919, carry: 281, total: 306, dynamicLoft: 11.6},
+                '5': {ballSpeed: 171, launchAngle: 13.0, spinRate: 2358, carry: 295, total: 321, dynamicLoft: 14.4}
+            },
+            120: {
+                '-5': {ballSpeed: 176, launchAngle: 6.1, spinRate: 3433, carry: 281, total: 305, dynamicLoft: 8.1},
+                '0': {ballSpeed: 178, launchAngle: 9.3, spinRate: 2890, carry: 296, total: 321, dynamicLoft: 11.0},
+                '5': {ballSpeed: 179, launchAngle: 12.6, spinRate: 2343, carry: 310, total: 350, dynamicLoft: 14.0}
+            }
+        };
+
+        const totalData = {
+            75: {
+                '-5': {ballSpeed: 107, launchAngle: 11.8, spinRate: 3214, carry: 140, total: 182, dynamicLoft: 14.9},
+                '0': {ballSpeed: 109, launchAngle: 13.0, spinRate: 2506, carry: 147, total: 195, dynamicLoft: 15.3},
+                '5': {ballSpeed: 111, launchAngle: 15.3, spinRate: 1976, carry: 156, total: 206, dynamicLoft: 17.1}
+            },
+            80: {
+                '-5': {ballSpeed: 115, launchAngle: 10.1, spinRate: 3078, carry: 154, total: 188, dynamicLoft: 12.8},
+                '0': {ballSpeed: 117, launchAngle: 12.1, spinRate: 2494, carry: 163, total: 199, dynamicLoft: 14.3},
+                '5': {ballSpeed: 118, launchAngle: 14.8, spinRate: 2005, carry: 174, total: 209, dynamicLoft: 16.5}
+            },
+            85: {
+                '-5': {ballSpeed: 123, launchAngle: 9.3, spinRate: 3110, carry: 169, total: 215, dynamicLoft: 11.9},
+                '0': {ballSpeed: 125, launchAngle: 11.7, spinRate: 2568, carry: 180, total: 228, dynamicLoft: 13.8},
+                '5': {ballSpeed: 126, launchAngle: 14.0, spinRate: 1964, carry: 189, total: 241, dynamicLoft: 15.6}
+            },
+            90: {
+                '-5': {ballSpeed: 131, launchAngle: 8.5, spinRate: 3122, carry: 185, total: 231, dynamicLoft: 11.0},
+                '0': {ballSpeed: 132, launchAngle: 10.8, spinRate: 2517, carry: 196, total: 245, dynamicLoft: 12.8},
+                '5': {ballSpeed: 134, launchAngle: 13.8, spinRate: 2021, carry: 207, total: 259, dynamicLoft: 15.3}
+            },
+            95: {
+                '-5': {ballSpeed: 138, launchAngle: 7.9, spinRate: 3144, carry: 201, total: 247, dynamicLoft: 10.2},
+                '0': {ballSpeed: 140, launchAngle: 10.5, spinRate: 2565, carry: 213, total: 262, dynamicLoft: 12.3},
+                '5': {ballSpeed: 141, launchAngle: 13.0, spinRate: 1948, carry: 223, total: 276, dynamicLoft: 14.4}
+            },
+            100: {
+                '-5': {ballSpeed: 146, launchAngle: 7.2, spinRate: 3118, carry: 216, total: 262, dynamicLoft: 9.3},
+                '0': {ballSpeed: 148, launchAngle: 10.0, spinRate: 2570, carry: 230, total: 278, dynamicLoft: 11.7},
+                '5': {ballSpeed: 149, launchAngle: 12.4, spinRate: 1887, carry: 239, total: 293, dynamicLoft: 13.7}
+            },
+            105: {
+                '-5': {ballSpeed: 154, launchAngle: 6.4, spinRate: 3071, carry: 231, total: 278, dynamicLoft: 8.4},
+                '0': {ballSpeed: 156, launchAngle: 9.1, spinRate: 2461, carry: 243, total: 294, dynamicLoft: 10.7},
+                '5': {ballSpeed: 157, launchAngle: 11.7, spinRate: 1810, carry: 254, total: 309, dynamicLoft: 12.9}
+            },
+            110: {
+                '-5': {ballSpeed: 162, launchAngle: 5.6, spinRate: 3005, carry: 245, total: 293, dynamicLoft: 7.5},
+                '0': {ballSpeed: 163, launchAngle: 8.7, spinRate: 2471, carry: 260, total: 310, dynamicLoft: 10.2},
+                '5': {ballSpeed: 165, launchAngle: 11.1, spinRate: 1716, carry: 268, total: 326, dynamicLoft: 12.2}
+            },
+            115: {
+                '-5': {ballSpeed: 170, launchAngle: 5.3, spinRate: 3030, carry: 261, total: 307, dynamicLoft: 7.1},
+                '0': {ballSpeed: 171, launchAngle: 8.0, spinRate: 2396, carry: 274, total: 325, dynamicLoft: 9.5},
+                '5': {ballSpeed: 172, launchAngle: 10.7, spinRate: 1681, carry: 285, total: 342, dynamicLoft: 11.7}
+            },
+            120: {
+                '-5': {ballSpeed: 178, launchAngle: 4.5, spinRate: 2929, carry: 273, total: 322, dynamicLoft: 6.2},
+                '0': {ballSpeed: 179, launchAngle: 7.7, spinRate: 2382, carry: 290, total: 340, dynamicLoft: 9.0},
+                '5': {ballSpeed: 180, launchAngle: 10.3, spinRate: 1636, carry: 300, total: 358, dynamicLoft: 11.3}
+            }
+        };
+
+        let manualBallSpeed = false; // Track if user manually entered ball speed
+
+        function interpolate(value, data1, data2, key1, key2) {
+            if (!data1 || !data2) return null;
+            const val1 = data1[key1] || data1;
+            const val2 = data2[key2] || data2;
+            const ratio = (value - key1) / (key2 - key1);
+            return val1 + ratio * (val2 - val1);
+        }
+
+        function getInterpolatedData(clubSpeed, attackAngle, dataSet) {
+            // Find surrounding club speeds
+            const speeds = Object.keys(dataSet).map(Number).sort((a, b) => a - b);
+            let lowerSpeed = speeds[0];
+            let upperSpeed = speeds[speeds.length - 1];
+            
+            for (let i = 0; i < speeds.length - 1; i++) {
+                if (clubSpeed >= speeds[i] && clubSpeed <= speeds[i + 1]) {
+                    lowerSpeed = speeds[i];
+                    upperSpeed = speeds[i + 1];
+                    break;
+                }
+            }
+
+            // Clamp club speed to available range
+            clubSpeed = Math.max(lowerSpeed, Math.min(upperSpeed, clubSpeed));
+
+            // Find surrounding attack angles
+            const angles = Object.keys(dataSet[lowerSpeed]).map(Number).sort((a, b) => a - b);
+            let lowerAngle = angles[0];
+            let upperAngle = angles[angles.length - 1];
+            
+            for (let i = 0; i < angles.length - 1; i++) {
+                if (attackAngle >= angles[i] && attackAngle <= angles[i + 1]) {
+                    lowerAngle = angles[i];
+                    upperAngle = angles[i + 1];
+                    break;
+                }
+            }
+
+            // Clamp attack angle to available range
+            attackAngle = Math.max(lowerAngle, Math.min(upperAngle, attackAngle));
+
+            // Get four corner data points
+            const data_ll = dataSet[lowerSpeed][lowerAngle.toString()];
+            const data_lu = dataSet[lowerSpeed][upperAngle.toString()];
+            const data_ul = dataSet[upperSpeed][lowerAngle.toString()];
+            const data_uu = dataSet[upperSpeed][upperAngle.toString()];
+
+            // Interpolate for attack angle at lower speed
+            const lowerSpeedData = {};
+            for (let key in data_ll) {
+                lowerSpeedData[key] = interpolate(attackAngle, data_ll[key], data_lu[key], lowerAngle, upperAngle);
+            }
+
+            // Interpolate for attack angle at upper speed
+            const upperSpeedData = {};
+            for (let key in data_ul) {
+                upperSpeedData[key] = interpolate(attackAngle, data_ul[key], data_uu[key], lowerAngle, upperAngle);
+            }
+
+            // Interpolate between speeds
+            const result = {};
+            for (let key in lowerSpeedData) {
+                result[key] = interpolate(clubSpeed, lowerSpeedData[key], upperSpeedData[key], lowerSpeed, upperSpeed);
+            }
+
+            return result;
+        }
+
+        function onBallSpeedManualInput() {
+            manualBallSpeed = true;
+            calculateResults();
+        }
+
+        function onClubSpeedOrAttackAngleChange() {
+            manualBallSpeed = false;
+            calculateResults();
+        }
+
+        function calculateResults() {
+            const mode = document.getElementById('optimizeMode').value;
+            const clubSpeed = parseFloat(document.getElementById('clubSpeed').value);
+            const attackAngle = parseFloat(document.getElementById('attackAngle').value);
+
+            // Update attack angle display
+            document.getElementById('attackAngleValue').textContent = attackAngle + '°';
+
+            // Validate inputs
+            if (isNaN(clubSpeed) || isNaN(attackAngle)) {
+                document.getElementById('results').innerHTML = `
+                    <h2>Optimal Results</h2>
+                    <div class="no-data">Please enter valid numbers for all fields</div>
+                `;
+                return;
+            }
+
+            let data;
+            if (mode === 'carry') {
+                data = getInterpolatedData(clubSpeed, attackAngle, carryData);
+            } else if (mode === 'total') {
+                data = getInterpolatedData(clubSpeed, attackAngle, totalData);
+            } else { // both
+                const carryResult = getInterpolatedData(clubSpeed, attackAngle, carryData);
+                const totalResult = getInterpolatedData(clubSpeed, attackAngle, totalData);
+                // Average the results
+                data = {};
+                for (let key in carryResult) {
+                    data[key] = (carryResult[key] + totalResult[key]) / 2;
+                }
+            }
+
+            // Auto-update ball speed unless user manually entered it
+            if (!manualBallSpeed) {
+                document.getElementById('ballSpeed').value = Math.round(data.ballSpeed);
+            } else {
+                // Use manual ball speed
+                const ballSpeed = parseFloat(document.getElementById('ballSpeed').value);
+                if (!isNaN(ballSpeed)) {
+                    data.ballSpeed = ballSpeed;
+                }
+            }
+
+            // Round values for display
+            data.carry = Math.round(data.carry);
+            data.total = Math.round(data.total);
+            data.spinRate = Math.round(data.spinRate);
+            data.launchAngle = data.launchAngle.toFixed(1);
+            data.dynamicLoft = data.dynamicLoft.toFixed(1);
+            data.ballSpeed = Math.round(data.ballSpeed);
+
+            displayResults(data, mode);
+        }
+
+        function displayResults(data, mode) {
+            const resultsDiv = document.getElementById('results');
+            
+            let modeText = '';
+            if (mode === 'carry') modeText = 'Carry Distance';
+            else if (mode === 'total') modeText = 'Total Distance';
+            else modeText = 'Balanced (Carry + Total)';
+
+            resultsDiv.innerHTML = `
+                <h2>Optimal Results - ${modeText}</h2>
+                <div class="results-grid">
+                    <div class="result-card distance-highlight">
+                        <div class="result-label">Carry Distance</div>
+                        <div class="result-value">${data.carry}<span class="result-unit">yards</span></div>
+                    </div>
+                    <div class="result-card distance-highlight">
+                        <div class="result-label">Total Distance</div>
+                        <div class="result-value">${data.total}<span class="result-unit">yards</span></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Ball Speed</div>
+                        <div class="result-value">${data.ballSpeed}<span class="result-unit">mph</span></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Launch Angle</div>
+                        <div class="result-value">${data.launchAngle}<span class="result-unit">°</span></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Spin Rate</div>
+                        <div class="result-value">${data.spinRate}<span class="result-unit">rpm</span></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Dynamic Loft</div>
+                        <div class="result-value">${data.dynamicLoft}<span class="result-unit">°</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize with default values
+        calculateResults();
+    </script>
+</body>
+</html>
