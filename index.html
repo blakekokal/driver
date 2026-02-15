@@ -13,83 +13,80 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #000000;
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: white;
+            background: #1a1a1a;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 30px;
+            background: #2a2a2a;
+            padding: 20px;
             text-align: center;
             color: white;
+            border-bottom: 2px solid #333;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.95;
+            font-size: 1.6em;
+            text-shadow: none;
         }
 
         .content {
-            padding: 40px;
+            padding: 15px;
         }
 
         .control-group {
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
             font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            color: #e0e0e0;
+            margin-bottom: 8px;
+            font-size: 0.95em;
         }
 
         select, input[type="number"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
+            padding: 10px;
+            border: 2px solid #333;
             border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s;
+            background: #2a2a2a;
+            color: #ffffff;
         }
 
         select:focus, input[type="number"]:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
         }
 
         input[type="number"] {
             font-weight: 600;
-            color: #333;
+            color: #ffffff;
         }
 
         .input-hint {
-            font-size: 0.85em;
-            color: #999;
-            margin-top: 5px;
+            font-size: 0.75em;
+            color: #888;
+            margin-top: 3px;
         }
 
         .slider-container {
             position: relative;
-            padding: 10px 0;
+            padding: 5px 0;
         }
 
         input[type="range"] {
@@ -97,7 +94,7 @@
             appearance: none;
             width: 100%;
             height: 8px;
-            background: #e0e0e0;
+            background: #333;
             border-radius: 5px;
             outline: none;
             padding: 0;
@@ -108,10 +105,10 @@
             appearance: none;
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #ffffff;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             transition: transform 0.2s;
         }
 
@@ -122,108 +119,180 @@
         input[type="range"]::-moz-range-thumb {
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #ffffff;
             border-radius: 50%;
             cursor: pointer;
             border: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
         .value-display {
             display: flex;
             justify-content: space-between;
-            margin-top: 8px;
-            font-size: 0.95em;
-            color: #666;
+            margin-top: 5px;
+            font-size: 0.85em;
+            color: #999;
         }
 
         .current-value {
             font-weight: 700;
-            color: #667eea;
-            font-size: 1.2em;
+            color: #ffffff;
+            font-size: 1.1em;
         }
 
         .results {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            background: #2a2a2a;
             border-radius: 15px;
-            padding: 30px;
-            margin-top: 30px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #333;
         }
 
         .results h2 {
-            color: #d63031;
-            margin-bottom: 20px;
-            font-size: 1.8em;
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-size: 1.3em;
             text-align: center;
         }
 
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
 
         .result-card {
-            background: white;
-            padding: 20px;
+            background: #1a1a1a;
+            padding: 12px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-        }
-
-        .result-card:hover {
-            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 1px solid #333;
         }
 
         .result-label {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 5px;
+            font-size: 0.75em;
+            color: #999;
+            margin-bottom: 4px;
         }
 
         .result-value {
-            font-size: 2em;
+            font-size: 1.6em;
             font-weight: 700;
-            color: #667eea;
+            color: #ffffff;
+            line-height: 1;
         }
 
         .result-unit {
-            font-size: 0.8em;
-            color: #999;
-            margin-left: 5px;
+            font-size: 0.6em;
+            color: #888;
+            margin-left: 2px;
         }
 
         .distance-highlight {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            font-size: 1.2em;
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .distance-highlight .result-label {
+            color: #666;
         }
 
         .distance-highlight .result-value {
-            color: white;
-            font-size: 3em;
+            color: #000000;
+            font-size: 2em;
+        }
+
+        .distance-highlight .result-unit {
+            color: #666;
         }
 
         .no-data {
             text-align: center;
-            color: #999;
+            color: #666;
             font-style: italic;
-            padding: 40px;
+            padding: 20px;
+            grid-column: 1 / -1;
         }
 
+        /* Compact layout for mobile */
         @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
             .header h1 {
-                font-size: 1.8em;
+                font-size: 1.4em;
             }
             
             .content {
-                padding: 20px;
+                padding: 12px;
+            }
+
+            .control-group {
+                margin-bottom: 12px;
+            }
+
+            label {
+                font-size: 0.9em;
+                margin-bottom: 6px;
+            }
+
+            .results {
+                padding: 12px;
+                margin-top: 12px;
+            }
+
+            .results h2 {
+                font-size: 1.1em;
+                margin-bottom: 10px;
+            }
+
+            .result-card {
+                padding: 10px 8px;
+            }
+
+            .result-value {
+                font-size: 1.4em;
+            }
+
+            .distance-highlight .result-value {
+                font-size: 1.8em;
+            }
+
+            .input-hint {
+                font-size: 0.7em;
+            }
+        }
+
+        /* Extra small screens - further optimization */
+        @media (max-width: 400px) {
+            .header h1 {
+                font-size: 1.2em;
             }
 
             .results-grid {
-                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .result-card {
+                padding: 8px 6px;
+            }
+
+            .result-label {
+                font-size: 0.7em;
+            }
+
+            .result-value {
+                font-size: 1.3em;
+            }
+
+            .distance-highlight .result-value {
+                font-size: 1.6em;
             }
         }
     </style>
@@ -231,8 +300,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>⛳ TrackMan Driver Optimizer</h1>
-            <p>Find Your Perfect Drive</p>
+            <h1>Driver Optimizer</h1>
         </div>
 
         <div class="content">
@@ -522,31 +590,31 @@
             const resultsDiv = document.getElementById('results');
             
             let modeText = '';
-            if (mode === 'carry') modeText = 'Carry Distance';
-            else if (mode === 'total') modeText = 'Total Distance';
-            else modeText = 'Balanced (Carry + Total)';
+            if (mode === 'carry') modeText = 'Carry';
+            else if (mode === 'total') modeText = 'Total';
+            else modeText = 'Balanced';
 
             resultsDiv.innerHTML = `
                 <h2>Optimal Results - ${modeText}</h2>
                 <div class="results-grid">
                     <div class="result-card distance-highlight">
-                        <div class="result-label">Carry Distance</div>
-                        <div class="result-value">${data.carry}<span class="result-unit">yards</span></div>
+                        <div class="result-label">Carry</div>
+                        <div class="result-value">${data.carry}<span class="result-unit">yds</span></div>
                     </div>
                     <div class="result-card distance-highlight">
-                        <div class="result-label">Total Distance</div>
-                        <div class="result-value">${data.total}<span class="result-unit">yards</span></div>
+                        <div class="result-label">Total</div>
+                        <div class="result-value">${data.total}<span class="result-unit">yds</span></div>
                     </div>
                     <div class="result-card">
                         <div class="result-label">Ball Speed</div>
                         <div class="result-value">${data.ballSpeed}<span class="result-unit">mph</span></div>
                     </div>
                     <div class="result-card">
-                        <div class="result-label">Launch Angle</div>
+                        <div class="result-label">Launch</div>
                         <div class="result-value">${data.launchAngle}<span class="result-unit">°</span></div>
                     </div>
                     <div class="result-card">
-                        <div class="result-label">Spin Rate</div>
+                        <div class="result-label">Spin</div>
                         <div class="result-value">${data.spinRate}<span class="result-unit">rpm</span></div>
                     </div>
                     <div class="result-card">
