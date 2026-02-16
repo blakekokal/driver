@@ -132,18 +132,38 @@
             padding: 5px 0;
         }
 
-        .value-display {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.85em;
-            color: #999;
-        }
-
-        .current-value {
+        .current-value-display {
             font-weight: 700;
             color: #ffffff;
             font-size: 1.1em;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+        }
+
+        .slider-header {
+            position: relative;
+            margin-bottom: 8px;
+            height: 20px;
+        }
+
+        .slider-label {
+            font-weight: 600;
+            color: #e0e0e0;
+            font-size: 0.95em;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .value-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.85em;
+            color: #999;
         }
 
         input[type="range"] {
@@ -343,7 +363,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Driver Optimizer <span style="font-size: 0.5em; font-weight: normal; opacity: 0.7;">v1.0.3</span></h1>
+            <h1>Driver Optimizer <span style="font-size: 0.5em; font-weight: normal; opacity: 0.7;">v1.0.8</span></h1>
         </div>
 
         <div class="content">
@@ -365,38 +385,42 @@
                 <div class="input-row">
                     <div class="input-column">
                         <label for="ballSpeed">Ball Speed (mph)</label>
-                        <input type="number" id="ballSpeed" min="80" max="200" step="1" value="138" oninput="onBallSpeedManualInput()">
+                        <input type="number" id="ballSpeed" min="80" max="200" step="1" value="146" oninput="onBallSpeedManualInput()">
                         <div class="input-hint">Auto-calculated</div>
                     </div>
                     <div class="input-column">
                         <label for="smashFactor">Smash Factor</label>
-                        <input type="number" id="smashFactor" min="1.0" max="1.6" step="0.01" value="1.45" oninput="onSmashFactorManualInput()">
+                        <input type="number" id="smashFactor" min="1.3" max="1.53" step="0.01" value="1.46" oninput="onSmashFactorManualInput()">
                         <div class="input-hint">Auto-calculated</div>
                     </div>
                 </div>
             </div>
 
             <div class="control-group">
-                <label for="clubSpeed">Club Speed</label>
                 <div class="slider-container">
+                    <div class="slider-header">
+                        <div class="slider-label">Club Speed</div>
+                        <div class="current-value-display" id="clubSpeedValue">100 mph</div>
+                    </div>
+                    <input type="range" id="clubSpeed" min="60" max="140" step="1" value="100" oninput="onClubSpeedOrAttackAngleChange()">
                     <div class="value-display">
                         <span>60 mph</span>
-                        <span class="current-value" id="clubSpeedValue">95 mph</span>
                         <span>140 mph</span>
                     </div>
-                    <input type="range" id="clubSpeed" min="60" max="140" step="1" value="95" oninput="onClubSpeedOrAttackAngleChange()">
                 </div>
             </div>
 
             <div class="control-group">
-                <label for="attackAngle">Attack Angle</label>
                 <div class="slider-container">
-                    <div class="value-display">
-                        <span>-5°</span>
-                        <span class="current-value" id="attackAngleValue">0°</span>
-                        <span>+5°</span>
+                    <div class="slider-header">
+                        <div class="slider-label">Attack Angle</div>
+                        <div class="current-value-display" id="attackAngleValue">0°</div>
                     </div>
                     <input type="range" id="attackAngle" min="-5" max="5" step="0.5" value="0" oninput="onClubSpeedOrAttackAngleChange()">
+                    <div class="value-display">
+                        <span>-5°</span>
+                        <span>+5°</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -702,18 +726,35 @@
                 document.getElementById('ballSpeed').value = Math.round(data.ballSpeed);
                 document.getElementById('smashFactor').value = (data.ballSpeed / clubSpeed).toFixed(2);
             } else if (manualBallSpeed) {
-                // Use manual ball speed, calculate smash factor
+                // Use manual ball speed, calculate smash factor and update distances
                 const ballSpeed = parseFloat(document.getElementById('ballSpeed').value);
                 if (!isNaN(ballSpeed)) {
+                    const originalBallSpeed = data.ballSpeed;
                     data.ballSpeed = ballSpeed;
-                    document.getElementById('smashFactor').value = (ballSpeed / clubSpeed).toFixed(2);
+                    
+                    // Calculate and clamp smash factor
+                    let smashFactor = ballSpeed / clubSpeed;
+                    smashFactor = Math.max(1.3, Math.min(1.53, smashFactor));
+                    document.getElementById('smashFactor').value = smashFactor.toFixed(2);
+                    
+                    // Recalculate distances based on ball speed ratio
+                    const speedRatio = ballSpeed / originalBallSpeed;
+                    data.carry = Math.round(data.carry * speedRatio);
+                    data.total = Math.round(data.total * speedRatio);
                 }
             } else if (manualSmashFactor) {
-                // Use manual smash factor, calculate ball speed
+                // Use manual smash factor, calculate ball speed and update distances
                 const smashFactor = parseFloat(document.getElementById('smashFactor').value);
                 if (!isNaN(smashFactor)) {
-                    data.ballSpeed = Math.round(clubSpeed * smashFactor);
-                    document.getElementById('ballSpeed').value = data.ballSpeed;
+                    const newBallSpeed = clubSpeed * smashFactor;
+                    const originalBallSpeed = data.ballSpeed;
+                    data.ballSpeed = newBallSpeed;
+                    document.getElementById('ballSpeed').value = Math.round(newBallSpeed);
+                    
+                    // Recalculate distances based on ball speed ratio
+                    const speedRatio = newBallSpeed / originalBallSpeed;
+                    data.carry = Math.round(data.carry * speedRatio);
+                    data.total = Math.round(data.total * speedRatio);
                 }
             }
 
@@ -772,4 +813,3 @@
     </script>
 </body>
 </html>
-
