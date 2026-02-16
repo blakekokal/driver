@@ -132,6 +132,20 @@
             padding: 5px 0;
         }
 
+        .value-display {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .current-value {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1.1em;
+        }
+
         input[type="range"] {
             -webkit-appearance: none;
             appearance: none;
@@ -167,20 +181,6 @@
             cursor: pointer;
             border: none;
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
-        .value-display {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            font-size: 0.85em;
-            color: #999;
-        }
-
-        .current-value {
-            font-weight: 700;
-            color: #ffffff;
-            font-size: 1.1em;
         }
 
         .results {
@@ -379,24 +379,24 @@
             <div class="control-group">
                 <label for="clubSpeed">Club Speed</label>
                 <div class="slider-container">
-                    <input type="range" id="clubSpeed" min="60" max="140" step="1" value="95" oninput="onClubSpeedOrAttackAngleChange()">
                     <div class="value-display">
                         <span>60 mph</span>
                         <span class="current-value" id="clubSpeedValue">95 mph</span>
                         <span>140 mph</span>
                     </div>
+                    <input type="range" id="clubSpeed" min="60" max="140" step="1" value="95" oninput="onClubSpeedOrAttackAngleChange()">
                 </div>
             </div>
 
             <div class="control-group">
                 <label for="attackAngle">Attack Angle</label>
                 <div class="slider-container">
-                    <input type="range" id="attackAngle" min="-5" max="5" step="0.5" value="0" oninput="onClubSpeedOrAttackAngleChange()">
                     <div class="value-display">
                         <span>-5°</span>
                         <span class="current-value" id="attackAngleValue">0°</span>
                         <span>+5°</span>
                     </div>
+                    <input type="range" id="attackAngle" min="-5" max="5" step="0.5" value="0" oninput="onClubSpeedOrAttackAngleChange()">
                 </div>
             </div>
         </div>
