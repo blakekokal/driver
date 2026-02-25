@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Optimizer</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%23fff' font-family='Arial, sans-serif' font-weight='bold'>D</text></svg>">
+    <title>Full Bag Optimizer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%23fff' font-family='Arial, sans-serif' font-weight='bold'>O</text></svg>">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -36,18 +32,43 @@
             border-bottom: 2px solid #333;
         }
 
-        .header h1 {
-            font-size: 1.6em;
-            text-shadow: none;
+        .header h1 { font-size: 1.6em; }
+
+        /* TAB NAV */
+        .tab-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #222;
+            border-bottom: 2px solid #333;
         }
 
-        .content {
-            padding: 15px;
+        .tab-nav-btn {
+            padding: 12px;
+            background: transparent;
+            color: #777;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
         }
 
-        .control-group {
-            margin-bottom: 15px;
+        .tab-nav-btn:hover { color: #ccc; background: #2a2a2a; }
+
+        .tab-nav-btn.active {
+            color: #fff;
+            background: #1a1a1a;
+            border-bottom: 3px solid #fff;
         }
+
+        /* PANELS */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .content { padding: 15px; }
+
+        .control-group { margin-bottom: 15px; }
 
         label {
             display: block;
@@ -71,39 +92,21 @@
         select:focus, input[type="number"]:focus {
             outline: none;
             border-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
         }
 
-        input[type="number"] {
-            font-weight: 600;
-            color: #ffffff;
-        }
+        input[type="number"] { font-weight: 600; }
 
-        .input-hint {
-            font-size: 0.75em;
-            color: #888;
-            margin-top: 3px;
-        }
+        .input-hint { font-size: 0.75em; color: #888; margin-top: 3px; }
 
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .input-column { display: flex; flex-direction: column; }
 
-        .input-column {
-            display: flex;
-            flex-direction: column;
-        }
+        .btn-group { display: grid; gap: 8px; margin-bottom: 8px; }
+        .club-buttons { grid-template-columns: 1fr 1fr 1fr; }
+        .mode-buttons { grid-template-columns: 1fr 1fr 1fr; }
 
-        .mode-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .mode-btn {
+        .toggle-btn {
             padding: 10px;
             background: #2a2a2a;
             color: #999;
@@ -114,23 +117,18 @@
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
+            font-family: inherit;
         }
 
-        .mode-btn:hover {
-            border-color: #555;
-            color: #ccc;
-        }
+        .toggle-btn:hover { border-color: #555; color: #ccc; }
 
-        .mode-btn.active {
+        .toggle-btn.active {
             background: #ffffff;
             color: #000000;
             border-color: #ffffff;
         }
 
-        .slider-container {
-            position: relative;
-            padding: 5px 0;
-        }
+        .slider-container { position: relative; padding: 5px 0; }
 
         .current-value-display {
             font-weight: 700;
@@ -138,9 +136,7 @@
             font-size: 1.1em;
             text-align: center;
             position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
+            left: 0; right: 0; top: 0;
         }
 
         .slider-header {
@@ -189,20 +185,9 @@
             transition: transform 0.2s;
         }
 
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
-        input[type="range"]::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            background: #ffffff;
-            border-radius: 50%;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
+        /* RESULTS */
         .results {
             background: #2a2a2a;
             border-radius: 15px;
@@ -216,11 +201,12 @@
             margin-bottom: 12px;
             font-size: 1.3em;
             text-align: center;
+            text-transform: capitalize;
         }
 
         .results-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
 
@@ -233,11 +219,7 @@
             border: 1px solid #333;
         }
 
-        .result-label {
-            font-size: 0.75em;
-            color: #999;
-            margin-bottom: 4px;
-        }
+        .result-label { font-size: 0.75em; color: #999; margin-bottom: 4px; }
 
         .result-value {
             font-size: 1.6em;
@@ -246,570 +228,941 @@
             line-height: 1;
         }
 
-        .result-unit {
-            font-size: 0.6em;
-            color: #888;
-            margin-left: 2px;
+        .result-unit { font-size: 0.6em; color: #888; margin-left: 2px; }
+
+        .distance-highlight { background: #ffffff; color: #000000; }
+        .distance-highlight .result-label { color: #666; }
+        .distance-highlight .result-value { color: #000000; font-size: 2em; }
+        .distance-highlight .result-unit { color: #666; }
+
+        /* CLUB FACE TAB */
+        .face-visual-container {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
         }
 
-        .distance-highlight {
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .distance-highlight .result-label {
-            color: #666;
-        }
-
-        .distance-highlight .result-value {
-            color: #000000;
-            font-size: 2em;
-        }
-
-        .distance-highlight .result-unit {
-            color: #666;
-        }
-
-        .no-data {
+        .face-visual-container h2 {
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-size: 1.3em;
             text-align: center;
+        }
+
+        .face-stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .face-stat-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .face-stat-card.highlight-left {
+            background: #1a1a2e;
+            border-color: #4466ff;
+        }
+
+        .face-stat-card.highlight-right {
+            background: #2e1a1a;
+            border-color: #ff4444;
+        }
+
+        .face-stat-card.highlight-straight {
+            background: #1a2e1a;
+            border-color: #44ff88;
+        }
+
+        .face-stat-label { font-size: 0.75em; color: #999; margin-bottom: 4px; }
+
+        .face-stat-value {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .face-stat-unit { font-size: 0.6em; color: #888; margin-left: 2px; }
+
+        /* Top-down visual — fixed aspect ratio matches 130yd wide × 350yd deep grid */
+        .topdown-container {
+            position: relative;
+            width: 100%;
+            /* 130/350 ≈ 0.371 — use slightly wider margin so labels fit */
+            aspect-ratio: 155 / 390;
+            margin: 0 auto;
+        }
+
+        #faceCanvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .canvas-label {
+            font-size: 0.75em;
             color: #666;
-            font-style: italic;
-            padding: 20px;
-            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 6px;
         }
 
-        /* Compact layout for mobile */
+        .face-angle-display {
+            font-size: 1.3em;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 6px;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .face-angle-display.closed { color: #4488ff; }
+        .face-angle-display.open { color: #ff6644; }
+        .face-angle-display.square { color: #44ff88; }
+
         @media (max-width: 768px) {
-            body {
-                padding: 5px;
-            }
-
-            .header {
-                padding: 15px;
-            }
-
-            .header h1 {
-                font-size: 1.4em;
-            }
-            
-            .content {
-                padding: 12px;
-            }
-
-            .control-group {
-                margin-bottom: 12px;
-            }
-
-            label {
-                font-size: 0.9em;
-                margin-bottom: 6px;
-            }
-
-            .results {
-                padding: 12px;
-                margin-top: 12px;
-            }
-
-            .results h2 {
-                font-size: 1.1em;
-                margin-bottom: 10px;
-            }
-
-            .result-card {
-                padding: 10px 8px;
-            }
-
-            .result-value {
-                font-size: 1.4em;
-            }
-
-            .distance-highlight .result-value {
-                font-size: 1.8em;
-            }
-
-            .input-hint {
-                font-size: 0.7em;
-            }
-        }
-
-        /* Extra small screens - further optimization */
-        @media (max-width: 400px) {
-            .header h1 {
-                font-size: 1.2em;
-            }
-
-            .results-grid {
-                gap: 8px;
-            }
-
-            .result-card {
-                padding: 8px 6px;
-            }
-
-            .result-label {
-                font-size: 0.7em;
-            }
-
-            .result-value {
-                font-size: 1.3em;
-            }
-
-            .distance-highlight .result-value {
-                font-size: 1.6em;
-            }
+            .results-grid { gap: 8px; }
+            .result-card { padding: 10px 8px; }
+            .result-value { font-size: 1.4em; }
+            .distance-highlight .result-value { font-size: 1.8em; }
+            .face-stats-row { gap: 6px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Driver Optimizer <span style="font-size: 0.5em; font-weight: normal; opacity: 0.7;">v1.0.8</span></h1>
+            <h1>Bag Optimizer <span style="font-size:0.5em;font-weight:normal;opacity:0.7;">v2.4</span></h1>
         </div>
 
-        <div class="content">
-            <div class="results" id="results">
-                <h2>Optimal Results</h2>
-                <div class="no-data">Adjust the settings to see results</div>
-            </div>
+        <!-- TAB NAV -->
+        <div class="tab-nav">
+            <button class="tab-nav-btn active" onclick="switchTab('optimizer')">⛳ Optimizer</button>
+            <button class="tab-nav-btn" onclick="switchTab('face')">🎯 Club Face</button>
+        </div>
 
-            <div class="control-group">
-                <label>Optimization Mode</label>
-                <div class="mode-buttons">
-                    <button class="mode-btn active" data-mode="carry" onclick="setOptimizeMode('carry')">Carry</button>
-                    <button class="mode-btn" data-mode="total" onclick="setOptimizeMode('total')">Total</button>
-                    <button class="mode-btn" data-mode="both" onclick="setOptimizeMode('both')">Carry+Total</button>
+        <!-- ===================== OPTIMIZER TAB ===================== -->
+        <div id="tab-optimizer" class="tab-panel active">
+            <div class="content">
+                <div class="results" id="results">
+                    <h2>Optimal Results</h2>
+                    <div class="no-data">Adjust the settings to see results</div>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <div class="input-row">
-                    <div class="input-column">
-                        <label for="ballSpeed">Ball Speed (mph)</label>
-                        <input type="number" id="ballSpeed" min="80" max="200" step="1" value="146" oninput="onBallSpeedManualInput()">
-                        <div class="input-hint">Auto-calculated</div>
-                    </div>
-                    <div class="input-column">
-                        <label for="smashFactor">Smash Factor</label>
-                        <input type="number" id="smashFactor" min="1.3" max="1.53" step="0.01" value="1.46" oninput="onSmashFactorManualInput()">
-                        <div class="input-hint">Auto-calculated</div>
+                <div class="control-group">
+                    <label>Club Selection</label>
+                    <div class="btn-group club-buttons">
+                        <button class="toggle-btn club-btn active" data-club="driver" onclick="setClub('driver')">Driver</button>
+                        <button class="toggle-btn club-btn" data-club="iron7" onclick="setClub('iron7')">7 Iron</button>
+                        <button class="toggle-btn club-btn" data-club="pw" onclick="setClub('pw')">PW</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <div class="slider-container">
-                    <div class="slider-header">
-                        <div class="slider-label">Club Speed</div>
-                        <div class="current-value-display" id="clubSpeedValue">100 mph</div>
-                    </div>
-                    <input type="range" id="clubSpeed" min="60" max="140" step="1" value="100" oninput="onClubSpeedOrAttackAngleChange()">
-                    <div class="value-display">
-                        <span>60 mph</span>
-                        <span>140 mph</span>
+                <div class="control-group">
+                    <label>Optimization Mode</label>
+                    <div class="btn-group mode-buttons">
+                        <button id="modeBtn1" class="toggle-btn mode-btn active" data-mode="carry" onclick="setOptimizeMode(this.getAttribute('data-mode'))">Carry</button>
+                        <button id="modeBtn2" class="toggle-btn mode-btn" data-mode="total" onclick="setOptimizeMode(this.getAttribute('data-mode'))">Total</button>
+                        <button id="modeBtn3" class="toggle-btn mode-btn" data-mode="both" onclick="setOptimizeMode(this.getAttribute('data-mode'))">Carry+Total</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <div class="slider-container">
-                    <div class="slider-header">
-                        <div class="slider-label">Attack Angle</div>
-                        <div class="current-value-display" id="attackAngleValue">0°</div>
+                <div class="control-group">
+                    <div class="input-row">
+                        <div class="input-column">
+                            <label for="ballSpeed">Ball Speed (mph)</label>
+                            <input type="number" id="ballSpeed" min="40" max="220" step="1" oninput="onBallSpeedManualInput()">
+                            <div class="input-hint">Auto-calculated</div>
+                        </div>
+                        <div class="input-column">
+                            <label for="smashFactor">Smash Factor</label>
+                            <input type="number" id="smashFactor" min="1.0" max="1.53" step="0.01" oninput="onSmashFactorManualInput()">
+                            <div class="input-hint">Auto-calculated</div>
+                        </div>
                     </div>
-                    <input type="range" id="attackAngle" min="-5" max="5" step="0.5" value="0" oninput="onClubSpeedOrAttackAngleChange()">
-                    <div class="value-display">
-                        <span>-5°</span>
-                        <span>+5°</span>
+                </div>
+
+                <div class="control-group">
+                    <div class="slider-container">
+                        <div class="slider-header">
+                            <div class="slider-label">Club Speed</div>
+                            <div class="current-value-display" id="clubSpeedValue">100 mph</div>
+                        </div>
+                        <input type="range" id="clubSpeed" min="60" max="140" step="1" value="100" oninput="onClubSpeedOrAttackAngleChange()">
+                        <div class="value-display">
+                            <span id="speedMinDisplay">60 mph</span>
+                            <span id="speedMaxDisplay">140 mph</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="slider-container">
+                        <div class="slider-header">
+                            <div class="slider-label">Attack Angle</div>
+                            <div class="current-value-display" id="attackAngleValue">0°</div>
+                        </div>
+                        <input type="range" id="attackAngle" min="-10" max="10" step="0.5" value="0" oninput="onClubSpeedOrAttackAngleChange()">
+                        <div class="value-display">
+                            <span>-10°</span>
+                            <span>+10°</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- ===================== CLUB FACE TAB ===================== -->
+        <div id="tab-face" class="tab-panel">
+            <div class="content">
+
+                <div class="face-visual-container">
+                    <h2 id="faceTitle">Driver — Club Face</h2>
+
+                    <!-- Face angle display -->
+                    <div class="face-angle-display square" id="faceAngleDisplay">Square (0°)</div>
+
+                    <!-- Stats row -->
+                    <div class="face-stats-row">
+                        <div class="face-stat-card" id="faceCarryCard">
+                            <div class="face-stat-label">Carry</div>
+                            <div class="face-stat-value" id="faceCarryVal">—<span class="face-stat-unit">yds</span></div>
+                        </div>
+                        <div class="face-stat-card" id="faceLateralCard">
+                            <div class="face-stat-label">Offline</div>
+                            <div class="face-stat-value" id="faceLateralVal">0<span class="face-stat-unit">yds</span></div>
+                        </div>
+                        <div class="face-stat-card" id="faceDirCard">
+                            <div class="face-stat-label">Direction</div>
+                            <div class="face-stat-value" id="faceDirVal" style="font-size:1.1em;">Straight</div>
+                        </div>
+                    </div>
+
+                    <!-- Top-down visual -->
+                    <div class="topdown-container">
+                        <canvas id="faceCanvas"></canvas>
+                    </div>
+                    <div class="canvas-label">Top-down view — assumes 0° club path (straight swing)</div>
+                </div>
+
+                <!-- Club Selection (mirrored) -->
+                <div class="control-group">
+                    <label>Club Selection</label>
+                    <div class="btn-group club-buttons">
+                        <button class="toggle-btn face-club-btn active" data-club="driver" onclick="setFaceClub('driver')">Driver</button>
+                        <button class="toggle-btn face-club-btn" data-club="iron7" onclick="setFaceClub('iron7')">7 Iron</button>
+                        <button class="toggle-btn face-club-btn" data-club="pw" onclick="setFaceClub('pw')">PW</button>
+                    </div>
+                </div>
+
+                <!-- Club Speed (own slider for face tab) -->
+                <div class="control-group">
+                    <div class="slider-container">
+                        <div class="slider-header">
+                            <div class="slider-label">Club Speed</div>
+                            <div class="current-value-display" id="faceClubSpeedValue">100 mph</div>
+                        </div>
+                        <input type="range" id="faceClubSpeed" min="60" max="140" step="1" value="100" oninput="calculateFaceResults()">
+                        <div class="value-display">
+                            <span id="faceSpeedMin">60 mph</span>
+                            <span id="faceSpeedMax">140 mph</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Club Face Angle Slider -->
+                <div class="control-group">
+                    <div class="slider-container">
+                        <div class="slider-header">
+                            <div class="slider-label">Club Face Angle</div>
+                            <div class="current-value-display" id="faceAngleSliderValue">0°</div>
+                        </div>
+                        <input type="range" id="faceAngle" min="-5" max="5" step="0.5" value="0" oninput="calculateFaceResults()">
+                        <div class="value-display">
+                            <span>-5° (Closed)</span>
+                            <span>+5° (Open)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // TrackMan data
-        const carryData = {
-            75: {
-                '-5': {ballSpeed: 104, launchAngle: 14.6, spinRate: 3722, carry: 143, total: 166, dynamicLoft: 18.2},
-                '0': {ballSpeed: 107, launchAngle: 16.3, spinRate: 3121, carry: 154, total: 178, dynamicLoft: 19.2},
-                '5': {ballSpeed: 108, launchAngle: 19.2, spinRate: 2720, carry: 164, total: 187, dynamicLoft: 21.8}
+    // ================================================================
+    //  DATA
+    // ================================================================
+    const clubData = {
+        driver: {
+            carry: {
+                75: {'-5': {ballSpeed:104,launchAngle:14.6,spinRate:3722,carry:143,total:166,dynamicLoft:18.2},'0':{ballSpeed:107,launchAngle:16.3,spinRate:3121,carry:154,total:178,dynamicLoft:19.2},'5':{ballSpeed:108,launchAngle:19.2,spinRate:2720,carry:164,total:187,dynamicLoft:21.8}},
+                80: {'-5': {ballSpeed:113,launchAngle:12.9,spinRate:3652,carry:160,total:176,dynamicLoft:16.2},'0':{ballSpeed:115,launchAngle:15.5,spinRate:3179,carry:171,total:187,dynamicLoft:18.3},'5':{ballSpeed:116,launchAngle:18.0,spinRate:2648,carry:181,total:197,dynamicLoft:20.3}},
+                85: {'-5': {ballSpeed:121,launchAngle:11.9,spinRate:3669,carry:175,total:199,dynamicLoft:15.0},'0':{ballSpeed:123,launchAngle:14.5,spinRate:3164,carry:187,total:211,dynamicLoft:17.1},'5':{ballSpeed:124,launchAngle:17.0,spinRate:2596,carry:197,total:223,dynamicLoft:19.1}},
+                90: {'-5': {ballSpeed:129,launchAngle:11.1,spinRate:3689,carry:191,total:215,dynamicLoft:14.0},'0':{ballSpeed:131,launchAngle:13.4,spinRate:3093,carry:203,total:228,dynamicLoft:15.8},'5':{ballSpeed:132,launchAngle:16.4,spinRate:2633,carry:214,total:239,dynamicLoft:18.5}},
+                95: {'-5': {ballSpeed:137,launchAngle:9.9,spinRate:3626,carry:207,total:243,dynamicLoft:12.6},'0':{ballSpeed:138,launchAngle:12.7,spinRate:3114,carry:219,total:244,dynamicLoft:15.0},'5':{ballSpeed:140,launchAngle:15.7,spinRate:2595,carry:231,total:256,dynamicLoft:17.6}},
+                100:{'-5': {ballSpeed:144,launchAngle:9.6,spinRate:3722,carry:222,total:244,dynamicLoft:12.2},'0':{ballSpeed:146,launchAngle:12.1,spinRate:3118,carry:235,total:272,dynamicLoft:14.3},'5':{ballSpeed:148,launchAngle:14.9,spinRate:2538,carry:247,total:272,dynamicLoft:16.7}},
+                105:{'-5': {ballSpeed:152,launchAngle:8.7,spinRate:3675,carry:237,total:260,dynamicLoft:11.1},'0':{ballSpeed:154,launchAngle:11.2,spinRate:3038,carry:251,total:275,dynamicLoft:13.2},'5':{ballSpeed:155,launchAngle:14.5,spinRate:2563,carry:263,total:288,dynamicLoft:16.2}},
+                110:{'-5': {ballSpeed:160,launchAngle:7.7,spinRate:3570,carry:252,total:275,dynamicLoft:9.9},'0':{ballSpeed:162,launchAngle:10.5,spinRate:2970,carry:266,total:291,dynamicLoft:12.3},'5':{ballSpeed:163,launchAngle:13.7,spinRate:2435,carry:279,total:305,dynamicLoft:15.2}},
+                115:{'-5': {ballSpeed:168,launchAngle:7.0,spinRate:3548,carry:266,total:290,dynamicLoft:9.2},'0':{ballSpeed:170,launchAngle:9.8,spinRate:2919,carry:281,total:306,dynamicLoft:11.6},'5':{ballSpeed:171,launchAngle:13.0,spinRate:2358,carry:295,total:321,dynamicLoft:14.4}},
+                120:{'-5': {ballSpeed:176,launchAngle:6.1,spinRate:3433,carry:281,total:305,dynamicLoft:8.1},'0':{ballSpeed:178,launchAngle:9.3,spinRate:2890,carry:296,total:321,dynamicLoft:11.0},'5':{ballSpeed:179,launchAngle:12.6,spinRate:2343,carry:310,total:350,dynamicLoft:14.0}}
             },
-            80: {
-                '-5': {ballSpeed: 113, launchAngle: 12.9, spinRate: 3652, carry: 160, total: 176, dynamicLoft: 16.2},
-                '0': {ballSpeed: 115, launchAngle: 15.5, spinRate: 3179, carry: 171, total: 187, dynamicLoft: 18.3},
-                '5': {ballSpeed: 116, launchAngle: 18.0, spinRate: 2648, carry: 181, total: 197, dynamicLoft: 20.3}
-            },
-            85: {
-                '-5': {ballSpeed: 121, launchAngle: 11.9, spinRate: 3669, carry: 175, total: 199, dynamicLoft: 15.0},
-                '0': {ballSpeed: 123, launchAngle: 14.5, spinRate: 3164, carry: 187, total: 211, dynamicLoft: 17.1},
-                '5': {ballSpeed: 124, launchAngle: 17.0, spinRate: 2596, carry: 197, total: 223, dynamicLoft: 19.1}
-            },
-            90: {
-                '-5': {ballSpeed: 129, launchAngle: 11.1, spinRate: 3689, carry: 191, total: 215, dynamicLoft: 14.0},
-                '0': {ballSpeed: 131, launchAngle: 13.4, spinRate: 3093, carry: 203, total: 228, dynamicLoft: 15.8},
-                '5': {ballSpeed: 132, launchAngle: 16.4, spinRate: 2633, carry: 214, total: 239, dynamicLoft: 18.5}
-            },
-            95: {
-                '-5': {ballSpeed: 137, launchAngle: 9.9, spinRate: 3626, carry: 207, total: 243, dynamicLoft: 12.6},
-                '0': {ballSpeed: 138, launchAngle: 12.7, spinRate: 3114, carry: 219, total: 244, dynamicLoft: 15.0},
-                '5': {ballSpeed: 140, launchAngle: 15.7, spinRate: 2595, carry: 231, total: 256, dynamicLoft: 17.6}
-            },
-            100: {
-                '-5': {ballSpeed: 144, launchAngle: 9.6, spinRate: 3722, carry: 222, total: 244, dynamicLoft: 12.2},
-                '0': {ballSpeed: 146, launchAngle: 12.1, spinRate: 3118, carry: 235, total: 272, dynamicLoft: 14.3},
-                '5': {ballSpeed: 148, launchAngle: 14.9, spinRate: 2538, carry: 247, total: 272, dynamicLoft: 16.7}
-            },
-            105: {
-                '-5': {ballSpeed: 152, launchAngle: 8.7, spinRate: 3675, carry: 237, total: 260, dynamicLoft: 11.1},
-                '0': {ballSpeed: 154, launchAngle: 11.2, spinRate: 3038, carry: 251, total: 275, dynamicLoft: 13.2},
-                '5': {ballSpeed: 155, launchAngle: 14.5, spinRate: 2563, carry: 263, total: 288, dynamicLoft: 16.2}
-            },
-            110: {
-                '-5': {ballSpeed: 160, launchAngle: 7.7, spinRate: 3570, carry: 252, total: 275, dynamicLoft: 9.9},
-                '0': {ballSpeed: 162, launchAngle: 10.5, spinRate: 2970, carry: 266, total: 291, dynamicLoft: 12.3},
-                '5': {ballSpeed: 163, launchAngle: 13.7, spinRate: 2435, carry: 279, total: 305, dynamicLoft: 15.2}
-            },
-            115: {
-                '-5': {ballSpeed: 168, launchAngle: 7.0, spinRate: 3548, carry: 266, total: 290, dynamicLoft: 9.2},
-                '0': {ballSpeed: 170, launchAngle: 9.8, spinRate: 2919, carry: 281, total: 306, dynamicLoft: 11.6},
-                '5': {ballSpeed: 171, launchAngle: 13.0, spinRate: 2358, carry: 295, total: 321, dynamicLoft: 14.4}
-            },
-            120: {
-                '-5': {ballSpeed: 176, launchAngle: 6.1, spinRate: 3433, carry: 281, total: 305, dynamicLoft: 8.1},
-                '0': {ballSpeed: 178, launchAngle: 9.3, spinRate: 2890, carry: 296, total: 321, dynamicLoft: 11.0},
-                '5': {ballSpeed: 179, launchAngle: 12.6, spinRate: 2343, carry: 310, total: 350, dynamicLoft: 14.0}
+            total: {
+                75: {'-5':{ballSpeed:107,launchAngle:11.8,spinRate:3214,carry:140,total:182,dynamicLoft:14.9},'0':{ballSpeed:109,launchAngle:13.0,spinRate:2506,carry:147,total:195,dynamicLoft:15.3},'5':{ballSpeed:111,launchAngle:15.3,spinRate:1976,carry:156,total:206,dynamicLoft:17.1}},
+                80: {'-5':{ballSpeed:115,launchAngle:10.1,spinRate:3078,carry:154,total:188,dynamicLoft:12.8},'0':{ballSpeed:117,launchAngle:12.1,spinRate:2494,carry:163,total:199,dynamicLoft:14.3},'5':{ballSpeed:118,launchAngle:14.8,spinRate:2005,carry:174,total:209,dynamicLoft:16.5}},
+                85: {'-5':{ballSpeed:123,launchAngle:9.3,spinRate:3110,carry:169,total:215,dynamicLoft:11.9},'0':{ballSpeed:125,launchAngle:11.7,spinRate:2568,carry:180,total:228,dynamicLoft:13.8},'5':{ballSpeed:126,launchAngle:14.0,spinRate:1964,carry:189,total:241,dynamicLoft:15.6}},
+                90: {'-5':{ballSpeed:131,launchAngle:8.5,spinRate:3122,carry:185,total:231,dynamicLoft:11.0},'0':{ballSpeed:132,launchAngle:10.8,spinRate:2517,carry:196,total:245,dynamicLoft:12.8},'5':{ballSpeed:134,launchAngle:13.8,spinRate:2021,carry:207,total:259,dynamicLoft:15.3}},
+                95: {'-5':{ballSpeed:138,launchAngle:7.9,spinRate:3144,carry:201,total:247,dynamicLoft:10.2},'0':{ballSpeed:140,launchAngle:10.5,spinRate:2565,carry:213,total:262,dynamicLoft:12.3},'5':{ballSpeed:141,launchAngle:13.0,spinRate:1948,carry:223,total:276,dynamicLoft:14.4}},
+                100:{'-5':{ballSpeed:146,launchAngle:7.2,spinRate:3118,carry:216,total:262,dynamicLoft:9.3},'0':{ballSpeed:148,launchAngle:10.0,spinRate:2570,carry:230,total:278,dynamicLoft:11.7},'5':{ballSpeed:149,launchAngle:12.4,spinRate:1887,carry:239,total:293,dynamicLoft:13.7}},
+                105:{'-5':{ballSpeed:154,launchAngle:6.4,spinRate:3071,carry:231,total:278,dynamicLoft:8.4},'0':{ballSpeed:156,launchAngle:9.1,spinRate:2461,carry:243,total:294,dynamicLoft:10.7},'5':{ballSpeed:157,launchAngle:11.7,spinRate:1810,carry:254,total:309,dynamicLoft:12.9}},
+                110:{'-5':{ballSpeed:162,launchAngle:5.6,spinRate:3005,carry:245,total:293,dynamicLoft:7.5},'0':{ballSpeed:163,launchAngle:8.7,spinRate:2471,carry:260,total:310,dynamicLoft:10.2},'5':{ballSpeed:165,launchAngle:11.1,spinRate:1716,carry:268,total:326,dynamicLoft:12.2}},
+                115:{'-5':{ballSpeed:170,launchAngle:5.3,spinRate:3030,carry:261,total:307,dynamicLoft:7.1},'0':{ballSpeed:171,launchAngle:8.0,spinRate:2396,carry:274,total:325,dynamicLoft:9.5},'5':{ballSpeed:172,launchAngle:10.7,spinRate:1681,carry:285,total:342,dynamicLoft:11.7}},
+                120:{'-5':{ballSpeed:178,launchAngle:4.5,spinRate:2929,carry:273,total:322,dynamicLoft:6.2},'0':{ballSpeed:179,launchAngle:7.7,spinRate:2382,carry:290,total:340,dynamicLoft:9.0},'5':{ballSpeed:180,launchAngle:10.3,spinRate:1636,carry:300,total:358,dynamicLoft:11.3}}
             }
-        };
-
-        const totalData = {
-            75: {
-                '-5': {ballSpeed: 107, launchAngle: 11.8, spinRate: 3214, carry: 140, total: 182, dynamicLoft: 14.9},
-                '0': {ballSpeed: 109, launchAngle: 13.0, spinRate: 2506, carry: 147, total: 195, dynamicLoft: 15.3},
-                '5': {ballSpeed: 111, launchAngle: 15.3, spinRate: 1976, carry: 156, total: 206, dynamicLoft: 17.1}
+        },
+        iron7: {
+            carry: {
+                60:{'-5':{ballSpeed:79,launchAngle:12.5,spinRate:6200,carry:95,total:105,dynamicLoft:18.0},'0':{ballSpeed:80,launchAngle:15.0,spinRate:5800,carry:98,total:109,dynamicLoft:20.5},'5':{ballSpeed:78,launchAngle:17.5,spinRate:5300,carry:92,total:104,dynamicLoft:23.0}},
+                70:{'-5':{ballSpeed:93,launchAngle:13.0,spinRate:6500,carry:118,total:129,dynamicLoft:19.5},'0':{ballSpeed:94,launchAngle:15.8,spinRate:6000,carry:122,total:133,dynamicLoft:21.5},'5':{ballSpeed:92,launchAngle:18.5,spinRate:5500,carry:115,total:127,dynamicLoft:24.5}},
+                80:{'-5':{ballSpeed:106,launchAngle:14.0,spinRate:6800,carry:145,total:156,dynamicLoft:20.5},'0':{ballSpeed:107,launchAngle:16.5,spinRate:6300,carry:149,total:160,dynamicLoft:23.0},'5':{ballSpeed:104,launchAngle:19.2,spinRate:5700,carry:141,total:153,dynamicLoft:25.5}},
+                90:{'-5':{ballSpeed:119,launchAngle:15.0,spinRate:7100,carry:168,total:178,dynamicLoft:22.0},'0':{ballSpeed:120,launchAngle:17.5,spinRate:6500,carry:172,total:182,dynamicLoft:24.5},'5':{ballSpeed:118,launchAngle:20.0,spinRate:6000,carry:165,total:175,dynamicLoft:27.0}},
+                100:{'-5':{ballSpeed:132,launchAngle:16.2,spinRate:7400,carry:192,total:202,dynamicLoft:23.5},'0':{ballSpeed:134,launchAngle:18.5,spinRate:6800,carry:198,total:208,dynamicLoft:26.0},'5':{ballSpeed:131,launchAngle:21.0,spinRate:6200,carry:189,total:199,dynamicLoft:28.5}}
             },
-            80: {
-                '-5': {ballSpeed: 115, launchAngle: 10.1, spinRate: 3078, carry: 154, total: 188, dynamicLoft: 12.8},
-                '0': {ballSpeed: 117, launchAngle: 12.1, spinRate: 2494, carry: 163, total: 199, dynamicLoft: 14.3},
-                '5': {ballSpeed: 118, launchAngle: 14.8, spinRate: 2005, carry: 174, total: 209, dynamicLoft: 16.5}
-            },
-            85: {
-                '-5': {ballSpeed: 123, launchAngle: 9.3, spinRate: 3110, carry: 169, total: 215, dynamicLoft: 11.9},
-                '0': {ballSpeed: 125, launchAngle: 11.7, spinRate: 2568, carry: 180, total: 228, dynamicLoft: 13.8},
-                '5': {ballSpeed: 126, launchAngle: 14.0, spinRate: 1964, carry: 189, total: 241, dynamicLoft: 15.6}
-            },
-            90: {
-                '-5': {ballSpeed: 131, launchAngle: 8.5, spinRate: 3122, carry: 185, total: 231, dynamicLoft: 11.0},
-                '0': {ballSpeed: 132, launchAngle: 10.8, spinRate: 2517, carry: 196, total: 245, dynamicLoft: 12.8},
-                '5': {ballSpeed: 134, launchAngle: 13.8, spinRate: 2021, carry: 207, total: 259, dynamicLoft: 15.3}
-            },
-            95: {
-                '-5': {ballSpeed: 138, launchAngle: 7.9, spinRate: 3144, carry: 201, total: 247, dynamicLoft: 10.2},
-                '0': {ballSpeed: 140, launchAngle: 10.5, spinRate: 2565, carry: 213, total: 262, dynamicLoft: 12.3},
-                '5': {ballSpeed: 141, launchAngle: 13.0, spinRate: 1948, carry: 223, total: 276, dynamicLoft: 14.4}
-            },
-            100: {
-                '-5': {ballSpeed: 146, launchAngle: 7.2, spinRate: 3118, carry: 216, total: 262, dynamicLoft: 9.3},
-                '0': {ballSpeed: 148, launchAngle: 10.0, spinRate: 2570, carry: 230, total: 278, dynamicLoft: 11.7},
-                '5': {ballSpeed: 149, launchAngle: 12.4, spinRate: 1887, carry: 239, total: 293, dynamicLoft: 13.7}
-            },
-            105: {
-                '-5': {ballSpeed: 154, launchAngle: 6.4, spinRate: 3071, carry: 231, total: 278, dynamicLoft: 8.4},
-                '0': {ballSpeed: 156, launchAngle: 9.1, spinRate: 2461, carry: 243, total: 294, dynamicLoft: 10.7},
-                '5': {ballSpeed: 157, launchAngle: 11.7, spinRate: 1810, carry: 254, total: 309, dynamicLoft: 12.9}
-            },
-            110: {
-                '-5': {ballSpeed: 162, launchAngle: 5.6, spinRate: 3005, carry: 245, total: 293, dynamicLoft: 7.5},
-                '0': {ballSpeed: 163, launchAngle: 8.7, spinRate: 2471, carry: 260, total: 310, dynamicLoft: 10.2},
-                '5': {ballSpeed: 165, launchAngle: 11.1, spinRate: 1716, carry: 268, total: 326, dynamicLoft: 12.2}
-            },
-            115: {
-                '-5': {ballSpeed: 170, launchAngle: 5.3, spinRate: 3030, carry: 261, total: 307, dynamicLoft: 7.1},
-                '0': {ballSpeed: 171, launchAngle: 8.0, spinRate: 2396, carry: 274, total: 325, dynamicLoft: 9.5},
-                '5': {ballSpeed: 172, launchAngle: 10.7, spinRate: 1681, carry: 285, total: 342, dynamicLoft: 11.7}
-            },
-            120: {
-                '-5': {ballSpeed: 178, launchAngle: 4.5, spinRate: 2929, carry: 273, total: 322, dynamicLoft: 6.2},
-                '0': {ballSpeed: 179, launchAngle: 7.7, spinRate: 2382, carry: 290, total: 340, dynamicLoft: 9.0},
-                '5': {ballSpeed: 180, launchAngle: 10.3, spinRate: 1636, carry: 300, total: 358, dynamicLoft: 11.3}
+            total: {
+                60:{'-5':{ballSpeed:79,launchAngle:12.5,spinRate:6200,carry:95,total:108,dynamicLoft:18.0},'0':{ballSpeed:80,launchAngle:15.0,spinRate:5800,carry:98,total:112,dynamicLoft:20.5},'5':{ballSpeed:78,launchAngle:17.5,spinRate:5300,carry:92,total:107,dynamicLoft:23.0}},
+                70:{'-5':{ballSpeed:93,launchAngle:13.0,spinRate:6500,carry:118,total:132,dynamicLoft:19.5},'0':{ballSpeed:94,launchAngle:15.8,spinRate:6000,carry:122,total:136,dynamicLoft:21.5},'5':{ballSpeed:92,launchAngle:18.5,spinRate:5500,carry:115,total:130,dynamicLoft:24.5}},
+                80:{'-5':{ballSpeed:106,launchAngle:14.0,spinRate:6800,carry:145,total:159,dynamicLoft:20.5},'0':{ballSpeed:107,launchAngle:16.5,spinRate:6300,carry:149,total:163,dynamicLoft:23.0},'5':{ballSpeed:104,launchAngle:19.2,spinRate:5700,carry:141,total:156,dynamicLoft:25.5}},
+                90:{'-5':{ballSpeed:119,launchAngle:15.0,spinRate:7100,carry:168,total:181,dynamicLoft:22.0},'0':{ballSpeed:120,launchAngle:17.5,spinRate:6500,carry:172,total:185,dynamicLoft:24.5},'5':{ballSpeed:118,launchAngle:20.0,spinRate:6000,carry:165,total:178,dynamicLoft:27.0}},
+                100:{'-5':{ballSpeed:132,launchAngle:16.2,spinRate:7400,carry:192,total:205,dynamicLoft:23.5},'0':{ballSpeed:134,launchAngle:18.5,spinRate:6800,carry:198,total:211,dynamicLoft:26.0},'5':{ballSpeed:131,launchAngle:21.0,spinRate:6200,carry:189,total:202,dynamicLoft:28.5}}
             }
-        };
-
-        // Function to extrapolate data for speeds outside the original range (60-74 and 121-140)
-        function extrapolateData(dataSet) {
-            const speeds = Object.keys(dataSet).map(Number).sort((a, b) => a - b);
-            const minSpeed = speeds[0]; // 75
-            const maxSpeed = speeds[speeds.length - 1]; // 120
-            const angles = ['-5', '0', '5'];
-            
-            // Extrapolate below minimum speed (60-74)
-            for (let speed = 60; speed < minSpeed; speed++) {
-                dataSet[speed] = {};
-                angles.forEach(angle => {
-                    const data1 = dataSet[minSpeed][angle];
-                    const data2 = dataSet[minSpeed + 5][angle];
-                    
-                    dataSet[speed][angle] = {};
-                    for (let key in data1) {
-                        // Calculate the rate of change per mph
-                        const rate = (data2[key] - data1[key]) / 5;
-                        // Extrapolate backwards
-                        dataSet[speed][angle][key] = data1[key] + rate * (speed - minSpeed);
-                    }
-                });
+        },
+        pw: {
+            carry: {
+                50:{'-5':{ballSpeed:61,launchAngle:19.0,spinRate:7800,carry:68,total:70,dynamicLoft:30.0},'0':{ballSpeed:62,launchAngle:22.0,spinRate:7400,carry:70,total:72,dynamicLoft:33.0},'5':{ballSpeed:60,launchAngle:25.0,spinRate:6800,carry:65,total:67,dynamicLoft:36.0}},
+                60:{'-5':{ballSpeed:73,launchAngle:20.0,spinRate:8200,carry:88,total:91,dynamicLoft:31.5},'0':{ballSpeed:74,launchAngle:23.0,spinRate:7800,carry:91,total:94,dynamicLoft:34.5},'5':{ballSpeed:71,launchAngle:26.0,spinRate:7200,carry:85,total:88,dynamicLoft:37.5}},
+                70:{'-5':{ballSpeed:85,launchAngle:21.0,spinRate:8700,carry:108,total:112,dynamicLoft:32.5},'0':{ballSpeed:86,launchAngle:24.0,spinRate:8300,carry:112,total:116,dynamicLoft:35.5},'5':{ballSpeed:83,launchAngle:27.0,spinRate:7700,carry:104,total:108,dynamicLoft:38.5}},
+                80:{'-5':{ballSpeed:97,launchAngle:22.0,spinRate:9200,carry:128,total:133,dynamicLoft:34.0},'0':{ballSpeed:98,launchAngle:25.0,spinRate:8800,carry:132,total:137,dynamicLoft:37.0},'5':{ballSpeed:95,launchAngle:28.0,spinRate:8200,carry:125,total:130,dynamicLoft:40.0}},
+                90:{'-5':{ballSpeed:109,launchAngle:23.0,spinRate:9700,carry:148,total:153,dynamicLoft:35.5},'0':{ballSpeed:110,launchAngle:26.0,spinRate:9300,carry:153,total:158,dynamicLoft:38.5},'5':{ballSpeed:107,launchAngle:29.0,spinRate:8700,carry:145,total:150,dynamicLoft:41.5}}
+            },
+            total: {
+                50:{'-5':{ballSpeed:61,launchAngle:19.0,spinRate:7800,carry:68,total:72,dynamicLoft:30.0},'0':{ballSpeed:62,launchAngle:22.0,spinRate:7400,carry:70,total:74,dynamicLoft:33.0},'5':{ballSpeed:60,launchAngle:25.0,spinRate:6800,carry:65,total:69,dynamicLoft:36.0}},
+                60:{'-5':{ballSpeed:73,launchAngle:20.0,spinRate:8200,carry:88,total:93,dynamicLoft:31.5},'0':{ballSpeed:74,launchAngle:23.0,spinRate:7800,carry:91,total:96,dynamicLoft:34.5},'5':{ballSpeed:71,launchAngle:26.0,spinRate:7200,carry:85,total:90,dynamicLoft:37.5}},
+                70:{'-5':{ballSpeed:85,launchAngle:21.0,spinRate:8700,carry:108,total:114,dynamicLoft:32.5},'0':{ballSpeed:86,launchAngle:24.0,spinRate:8300,carry:112,total:118,dynamicLoft:35.5},'5':{ballSpeed:83,launchAngle:27.0,spinRate:7700,carry:104,total:110,dynamicLoft:38.5}},
+                80:{'-5':{ballSpeed:97,launchAngle:22.0,spinRate:9200,carry:128,total:135,dynamicLoft:34.0},'0':{ballSpeed:98,launchAngle:25.0,spinRate:8800,carry:132,total:139,dynamicLoft:37.0},'5':{ballSpeed:95,launchAngle:28.0,spinRate:8200,carry:125,total:132,dynamicLoft:40.0}},
+                90:{'-5':{ballSpeed:109,launchAngle:23.0,spinRate:9700,carry:148,total:155,dynamicLoft:35.5},'0':{ballSpeed:110,launchAngle:26.0,spinRate:9300,carry:153,total:160,dynamicLoft:38.5},'5':{ballSpeed:107,launchAngle:29.0,spinRate:8700,carry:145,total:152,dynamicLoft:41.5}}
             }
-            
-            // Extrapolate above maximum speed (121-140)
-            for (let speed = maxSpeed + 1; speed <= 140; speed++) {
-                dataSet[speed] = {};
-                angles.forEach(angle => {
-                    const data1 = dataSet[maxSpeed - 5][angle];
-                    const data2 = dataSet[maxSpeed][angle];
-                    
-                    dataSet[speed][angle] = {};
-                    for (let key in data2) {
-                        // Calculate the rate of change per mph
-                        const rate = (data2[key] - data1[key]) / 5;
-                        // Extrapolate forwards
-                        dataSet[speed][angle][key] = data2[key] + rate * (speed - maxSpeed);
-                    }
-                });
-            }
-            
-            return dataSet;
         }
+    };
 
-        // Extrapolate both datasets to cover 60-140 mph
-        extrapolateData(carryData);
-        extrapolateData(totalData);
+    // ================================================================
+    //  FACE DISPERSION COEFFICIENTS (derived from your baselines)
+    //  lateral = carry * |faceAngle| * coeff  (sign = direction)
+    //  Driver:  52.5 / (250 * 4) = 0.0525
+    //  7 Iron:  19.5 / (150 * 4) = 0.032500
+    //  PW:       7.8 / ( 90 * 4) = 0.021667
+    // ================================================================
+    const faceCoeff = {
+        driver: 0.0525,
+        iron7:  0.0325,
+        pw:     0.021667
+    };
 
-        let manualBallSpeed = false; // Track if user manually entered ball speed
-        let manualSmashFactor = false; // Track if user manually entered smash factor
-        let currentMode = 'carry'; // Track current optimization mode
+    // ================================================================
+    //  EXTRAPOLATION
+    // ================================================================
+    function extrapolateData(dataSet) {
+        const speeds = Object.keys(dataSet).map(Number).sort((a,b) => a-b);
+        const minSpeed = speeds[0];
+        const maxSpeed = speeds[speeds.length-1];
+        const step = speeds[1] - speeds[0];
+        const angles = ['-5','0','5'];
 
-        function setOptimizeMode(mode) {
-            currentMode = mode;
-            
-            // Update button active states
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                if (btn.getAttribute('data-mode') === mode) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
+        for (let speed = 30; speed < minSpeed; speed++) {
+            dataSet[speed] = {};
+            angles.forEach(angle => {
+                const d1 = dataSet[minSpeed][angle];
+                const d2 = dataSet[minSpeed+step][angle];
+                dataSet[speed][angle] = {};
+                for (let key in d1) {
+                    const rate = (d2[key]-d1[key])/step;
+                    dataSet[speed][angle][key] = d1[key] + rate*(speed-minSpeed);
                 }
             });
-            
-            calculateResults();
         }
 
-        function interpolate(value, data1, data2, key1, key2) {
-            if (!data1 || !data2) return null;
-            const val1 = data1[key1] || data1;
-            const val2 = data2[key2] || data2;
-            const ratio = (value - key1) / (key2 - key1);
-            return val1 + ratio * (val2 - val1);
-        }
-
-        function getInterpolatedData(clubSpeed, attackAngle, dataSet) {
-            // Find surrounding club speeds
-            const speeds = Object.keys(dataSet).map(Number).sort((a, b) => a - b);
-            let lowerSpeed = speeds[0];
-            let upperSpeed = speeds[speeds.length - 1];
-            
-            for (let i = 0; i < speeds.length - 1; i++) {
-                if (clubSpeed >= speeds[i] && clubSpeed <= speeds[i + 1]) {
-                    lowerSpeed = speeds[i];
-                    upperSpeed = speeds[i + 1];
-                    break;
+        for (let speed = maxSpeed+1; speed <= 150; speed++) {
+            dataSet[speed] = {};
+            angles.forEach(angle => {
+                const d1 = dataSet[maxSpeed-step][angle];
+                const d2 = dataSet[maxSpeed][angle];
+                dataSet[speed][angle] = {};
+                for (let key in d2) {
+                    const rate = (d2[key]-d1[key])/step;
+                    dataSet[speed][angle][key] = d2[key] + rate*(speed-maxSpeed);
                 }
-            }
-
-            // Clamp club speed to available range
-            clubSpeed = Math.max(lowerSpeed, Math.min(upperSpeed, clubSpeed));
-
-            // Find surrounding attack angles
-            const angles = Object.keys(dataSet[lowerSpeed]).map(Number).sort((a, b) => a - b);
-            let lowerAngle = angles[0];
-            let upperAngle = angles[angles.length - 1];
-            
-            for (let i = 0; i < angles.length - 1; i++) {
-                if (attackAngle >= angles[i] && attackAngle <= angles[i + 1]) {
-                    lowerAngle = angles[i];
-                    upperAngle = angles[i + 1];
-                    break;
-                }
-            }
-
-            // Clamp attack angle to available range
-            attackAngle = Math.max(lowerAngle, Math.min(upperAngle, attackAngle));
-
-            // Get four corner data points
-            const data_ll = dataSet[lowerSpeed][lowerAngle.toString()];
-            const data_lu = dataSet[lowerSpeed][upperAngle.toString()];
-            const data_ul = dataSet[upperSpeed][lowerAngle.toString()];
-            const data_uu = dataSet[upperSpeed][upperAngle.toString()];
-
-            // Interpolate for attack angle at lower speed
-            const lowerSpeedData = {};
-            for (let key in data_ll) {
-                lowerSpeedData[key] = interpolate(attackAngle, data_ll[key], data_lu[key], lowerAngle, upperAngle);
-            }
-
-            // Interpolate for attack angle at upper speed
-            const upperSpeedData = {};
-            for (let key in data_ul) {
-                upperSpeedData[key] = interpolate(attackAngle, data_ul[key], data_uu[key], lowerAngle, upperAngle);
-            }
-
-            // Interpolate between speeds
-            const result = {};
-            for (let key in lowerSpeedData) {
-                result[key] = interpolate(clubSpeed, lowerSpeedData[key], upperSpeedData[key], lowerSpeed, upperSpeed);
-            }
-
-            return result;
+            });
         }
+        return dataSet;
+    }
 
-        function onBallSpeedManualInput() {
-            manualBallSpeed = true;
-            manualSmashFactor = false;
-            calculateResults();
-        }
+    Object.keys(clubData).forEach(club => {
+        extrapolateData(clubData[club].carry);
+        extrapolateData(clubData[club].total);
+    });
 
-        function onSmashFactorManualInput() {
-            manualSmashFactor = true;
-            manualBallSpeed = false;
-            calculateResults();
-        }
+    // ================================================================
+    //  STATE
+    // ================================================================
+    let manualBallSpeed = false;
+    let manualSmashFactor = false;
+    let currentMode = 'carry';
+    let currentClub = 'driver';
+    let faceClub = 'driver';
+    let currentCarryYards = 235; // shared from optimizer
 
-        function onClubSpeedOrAttackAngleChange() {
-            manualBallSpeed = false;
-            manualSmashFactor = false;
-            calculateResults();
-        }
+    // ================================================================
+    //  TAB SWITCHING
+    // ================================================================
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-'+tab).classList.add('active');
+        event.target.classList.add('active');
+        if (tab === 'face') calculateFaceResults();
+    }
 
-        function calculateResults() {
-            const mode = currentMode;
-            const clubSpeed = parseFloat(document.getElementById('clubSpeed').value);
-            const attackAngle = parseFloat(document.getElementById('attackAngle').value);
+    // ================================================================
+    //  OPTIMIZER TAB LOGIC
+    // ================================================================
+    function interpolate(value, val1, val2, key1, key2) {
+        if (val1 === null || val2 === null) return null;
+        const ratio = (value - key1) / (key2 - key1);
+        return val1 + ratio * (val2 - val1);
+    }
 
-            // Update display values
-            document.getElementById('clubSpeedValue').textContent = clubSpeed + ' mph';
-            document.getElementById('attackAngleValue').textContent = attackAngle + '°';
-
-            // Validate inputs
-            if (isNaN(clubSpeed) || isNaN(attackAngle)) {
-                document.getElementById('results').innerHTML = `
-                    <h2>Optimal Results</h2>
-                    <div class="no-data">Please enter valid numbers for all fields</div>
-                `;
-                return;
+    function getInterpolatedData(clubSpeed, attackAngle, dataSet) {
+        const speeds = Object.keys(dataSet).map(Number).sort((a,b) => a-b);
+        let lowerSpeed = speeds[0];
+        let upperSpeed = speeds[speeds.length-1];
+        for (let i = 0; i < speeds.length-1; i++) {
+            if (clubSpeed >= speeds[i] && clubSpeed <= speeds[i+1]) {
+                lowerSpeed = speeds[i]; upperSpeed = speeds[i+1]; break;
             }
-
-            let data;
-            if (mode === 'carry') {
-                data = getInterpolatedData(clubSpeed, attackAngle, carryData);
-            } else if (mode === 'total') {
-                data = getInterpolatedData(clubSpeed, attackAngle, totalData);
-            } else { // both
-                const carryResult = getInterpolatedData(clubSpeed, attackAngle, carryData);
-                const totalResult = getInterpolatedData(clubSpeed, attackAngle, totalData);
-                // Average the results
-                data = {};
-                for (let key in carryResult) {
-                    data[key] = (carryResult[key] + totalResult[key]) / 2;
-                }
-            }
-
-            // Auto-update ball speed and smash factor unless user manually entered them
-            if (!manualBallSpeed && !manualSmashFactor) {
-                // Auto-calculate both from data
-                document.getElementById('ballSpeed').value = Math.round(data.ballSpeed);
-                document.getElementById('smashFactor').value = (data.ballSpeed / clubSpeed).toFixed(2);
-            } else if (manualBallSpeed) {
-                // Use manual ball speed, calculate smash factor and update distances
-                const ballSpeed = parseFloat(document.getElementById('ballSpeed').value);
-                if (!isNaN(ballSpeed)) {
-                    const originalBallSpeed = data.ballSpeed;
-                    data.ballSpeed = ballSpeed;
-                    
-                    // Calculate and clamp smash factor
-                    let smashFactor = ballSpeed / clubSpeed;
-                    smashFactor = Math.max(1.3, Math.min(1.53, smashFactor));
-                    document.getElementById('smashFactor').value = smashFactor.toFixed(2);
-                    
-                    // Recalculate distances based on ball speed ratio
-                    const speedRatio = ballSpeed / originalBallSpeed;
-                    data.carry = Math.round(data.carry * speedRatio);
-                    data.total = Math.round(data.total * speedRatio);
-                }
-            } else if (manualSmashFactor) {
-                // Use manual smash factor, calculate ball speed and update distances
-                const smashFactor = parseFloat(document.getElementById('smashFactor').value);
-                if (!isNaN(smashFactor)) {
-                    const newBallSpeed = clubSpeed * smashFactor;
-                    const originalBallSpeed = data.ballSpeed;
-                    data.ballSpeed = newBallSpeed;
-                    document.getElementById('ballSpeed').value = Math.round(newBallSpeed);
-                    
-                    // Recalculate distances based on ball speed ratio
-                    const speedRatio = newBallSpeed / originalBallSpeed;
-                    data.carry = Math.round(data.carry * speedRatio);
-                    data.total = Math.round(data.total * speedRatio);
-                }
-            }
-
-            // Round values for display
-            data.carry = Math.round(data.carry);
-            data.total = Math.round(data.total);
-            data.spinRate = Math.round(data.spinRate);
-            data.launchAngle = data.launchAngle.toFixed(1);
-            data.dynamicLoft = data.dynamicLoft.toFixed(1);
-            data.ballSpeed = Math.round(data.ballSpeed);
-            
-            displayResults(data, mode);
         }
-
-        function displayResults(data, mode) {
-            const resultsDiv = document.getElementById('results');
-            
-            let modeText = '';
-            if (mode === 'carry') modeText = 'Carry';
-            else if (mode === 'total') modeText = 'Total';
-            else modeText = 'Balanced';
-
-            resultsDiv.innerHTML = `
-                <h2>Optimal Results - ${modeText}</h2>
-                <div class="results-grid">
-                    <div class="result-card distance-highlight">
-                        <div class="result-label">Carry</div>
-                        <div class="result-value">${data.carry}<span class="result-unit">yds</span></div>
-                    </div>
-                    <div class="result-card distance-highlight">
-                        <div class="result-label">Total</div>
-                        <div class="result-value">${data.total}<span class="result-unit">yds</span></div>
-                    </div>
-                    <div class="result-card">
-                        <div class="result-label">Ball Speed</div>
-                        <div class="result-value">${data.ballSpeed}<span class="result-unit">mph</span></div>
-                    </div>
-                    <div class="result-card">
-                        <div class="result-label">Launch</div>
-                        <div class="result-value">${data.launchAngle}<span class="result-unit">°</span></div>
-                    </div>
-                    <div class="result-card">
-                        <div class="result-label">Spin</div>
-                        <div class="result-value">${data.spinRate}<span class="result-unit">rpm</span></div>
-                    </div>
-                    <div class="result-card">
-                        <div class="result-label">Dynamic Loft</div>
-                        <div class="result-value">${data.dynamicLoft}<span class="result-unit">°</span></div>
-                    </div>
-                </div>
-            `;
+        clubSpeed = Math.max(lowerSpeed, Math.min(upperSpeed, clubSpeed));
+        const angles = Object.keys(dataSet[lowerSpeed]).map(Number).sort((a,b) => a-b);
+        let lowerAngle = angles[0];
+        let upperAngle = angles[angles.length-1];
+        for (let i = 0; i < angles.length-1; i++) {
+            if (attackAngle >= angles[i] && attackAngle <= angles[i+1]) {
+                lowerAngle = angles[i]; upperAngle = angles[i+1]; break;
+            }
         }
+        attackAngle = Math.max(lowerAngle, Math.min(upperAngle, attackAngle));
+        const d_ll = dataSet[lowerSpeed][lowerAngle.toString()];
+        const d_lu = dataSet[lowerSpeed][upperAngle.toString()];
+        const d_ul = dataSet[upperSpeed][lowerAngle.toString()];
+        const d_uu = dataSet[upperSpeed][upperAngle.toString()];
+        const lsd = {};
+        for (let key in d_ll) lsd[key] = interpolate(attackAngle, d_ll[key], d_lu[key], lowerAngle, upperAngle);
+        const usd = {};
+        for (let key in d_ul) usd[key] = interpolate(attackAngle, d_ul[key], d_uu[key], lowerAngle, upperAngle);
+        const result = {};
+        for (let key in lsd) result[key] = interpolate(clubSpeed, lsd[key], usd[key], lowerSpeed, upperSpeed);
+        return result;
+    }
 
-        // Initialize with default values
+    function setClub(club) {
+        currentClub = club;
+        document.querySelectorAll('.club-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-club') === club);
+        });
+        const modeBtn1 = document.getElementById('modeBtn1');
+        const modeBtn2 = document.getElementById('modeBtn2');
+        const modeBtn3 = document.getElementById('modeBtn3');
+        if (club === 'driver') {
+            modeBtn1.textContent='Carry'; modeBtn1.setAttribute('data-mode','carry');
+            modeBtn2.textContent='Total'; modeBtn2.setAttribute('data-mode','total');
+            modeBtn3.textContent='Carry+Total'; modeBtn3.setAttribute('data-mode','both');
+            if (['low','mid','high'].includes(currentMode)) setOptimizeMode('carry');
+        } else {
+            modeBtn1.textContent='Low'; modeBtn1.setAttribute('data-mode','low');
+            modeBtn2.textContent='Mid'; modeBtn2.setAttribute('data-mode','mid');
+            modeBtn3.textContent='High'; modeBtn3.setAttribute('data-mode','high');
+            if (['carry','total','both'].includes(currentMode)) setOptimizeMode('mid');
+        }
+        const s = document.getElementById('clubSpeed');
+        if (club==='driver')      { s.min=60; s.max=140; s.value=100; document.getElementById('attackAngle').value=0; }
+        else if (club==='iron7')  { s.min=50; s.max=120; s.value=85;  document.getElementById('attackAngle').value=-3; }
+        else if (club==='pw')     { s.min=40; s.max=110; s.value=75;  document.getElementById('attackAngle').value=-5; }
+        document.getElementById('speedMinDisplay').textContent = s.min+' mph';
+        document.getElementById('speedMaxDisplay').textContent = s.max+' mph';
+        manualBallSpeed = false; manualSmashFactor = false;
         calculateResults();
+    }
+
+    function setOptimizeMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+        });
+        calculateResults();
+    }
+
+    function onBallSpeedManualInput() { manualBallSpeed=true; manualSmashFactor=false; calculateResults(); }
+    function onSmashFactorManualInput() { manualSmashFactor=true; manualBallSpeed=false; calculateResults(); }
+    function onClubSpeedOrAttackAngleChange() { manualBallSpeed=false; manualSmashFactor=false; calculateResults(); }
+
+    function calculateResults() {
+        const clubSpeed = parseFloat(document.getElementById('clubSpeed').value);
+        const attackAngle = parseFloat(document.getElementById('attackAngle').value);
+        document.getElementById('clubSpeedValue').textContent = clubSpeed+' mph';
+        document.getElementById('attackAngleValue').textContent = attackAngle+'°';
+        if (isNaN(clubSpeed)||isNaN(attackAngle)) {
+            document.getElementById('results').innerHTML = '<h2>Optimal Results</h2><div class="no-data">Please enter valid numbers</div>';
+            return;
+        }
+        let data;
+        if (currentClub === 'driver') {
+            if (currentMode==='carry') data = getInterpolatedData(clubSpeed,attackAngle,clubData.driver.carry);
+            else if (currentMode==='total') data = getInterpolatedData(clubSpeed,attackAngle,clubData.driver.total);
+            else {
+                const c = getInterpolatedData(clubSpeed,attackAngle,clubData.driver.carry);
+                const t = getInterpolatedData(clubSpeed,attackAngle,clubData.driver.total);
+                data={};
+                for (let k in c) data[k]=(c[k]+t[k])/2;
+            }
+        } else {
+            const bc = getInterpolatedData(clubSpeed,attackAngle,clubData[currentClub].carry);
+            const bt = getInterpolatedData(clubSpeed,attackAngle,clubData[currentClub].total);
+            data={...bc}; data.total=bt.total;
+            const rollOut = bt.total - bc.carry;
+            if (currentMode==='low')  { data.launchAngle-=3.5; data.dynamicLoft-=4.0; data.spinRate-=800; data.carry*=0.96; data.total=data.carry+(rollOut*1.8); }
+            else if (currentMode==='high') { data.launchAngle+=3.5; data.dynamicLoft+=4.0; data.spinRate+=800; data.carry*=0.97; data.total=data.carry+(rollOut*0.3); }
+        }
+
+        if (!manualBallSpeed && !manualSmashFactor) {
+            document.getElementById('ballSpeed').value = Math.round(data.ballSpeed);
+            document.getElementById('smashFactor').value = (data.ballSpeed/clubSpeed).toFixed(2);
+        } else if (manualBallSpeed) {
+            const bs = parseFloat(document.getElementById('ballSpeed').value);
+            if (!isNaN(bs)) {
+                const orig=data.ballSpeed; data.ballSpeed=bs;
+                const sf=Math.max(1.0,Math.min(1.53,bs/clubSpeed));
+                document.getElementById('smashFactor').value=sf.toFixed(2);
+                const ratio=bs/orig; data.carry=Math.round(data.carry*ratio); data.total=Math.round(data.total*ratio);
+            }
+        } else if (manualSmashFactor) {
+            const sf=parseFloat(document.getElementById('smashFactor').value);
+            if (!isNaN(sf)) {
+                const nbs=clubSpeed*sf; const orig=data.ballSpeed; data.ballSpeed=nbs;
+                document.getElementById('ballSpeed').value=Math.round(nbs);
+                const ratio=nbs/orig; data.carry=Math.round(data.carry*ratio); data.total=Math.round(data.total*ratio);
+            }
+        }
+
+        let hc = currentClub==='driver'?35:currentClub==='iron7'?0:-30;
+        data.height = (data.launchAngle*3)+(data.spinRate/150)+hc;
+        let lc = currentClub==='driver'?10:currentClub==='iron7'?0:-5;
+        data.landAngle = (data.launchAngle*1.5)+(data.spinRate/300)+lc;
+
+        data.carry=Math.round(data.carry); data.total=Math.round(data.total);
+        data.spinRate=Math.round(data.spinRate);
+        data.launchAngle=data.launchAngle.toFixed(1);
+        data.dynamicLoft=data.dynamicLoft.toFixed(1);
+        data.ballSpeed=Math.round(data.ballSpeed);
+        data.height=Math.round(data.height);
+        data.landAngle=data.landAngle.toFixed(1);
+
+        currentCarryYards = data.carry;
+        displayResults(data, currentMode, currentClub);
+    }
+
+    function displayResults(data, mode, club) {
+        const resultsDiv = document.getElementById('results');
+        let clubText = club==='driver'?'Driver':club==='iron7'?'7 Iron':'Pitching Wedge';
+        let modeText = '';
+        if (club==='driver') modeText=mode==='carry'?'Carry':mode==='total'?'Total':'Balanced';
+        else modeText=mode==='low'?'Low Trajectory':mode==='mid'?'Mid Trajectory':'High Trajectory';
+        resultsDiv.innerHTML = `
+            <h2>Optimal Results — ${clubText} (${modeText})</h2>
+            <div class="results-grid">
+                <div class="result-card distance-highlight">
+                    <div class="result-label">Carry</div>
+                    <div class="result-value">${data.carry}<span class="result-unit">yds</span></div>
+                </div>
+                <div class="result-card distance-highlight">
+                    <div class="result-label">Total</div>
+                    <div class="result-value">${data.total}<span class="result-unit">yds</span></div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Ball Speed</div>
+                    <div class="result-value">${data.ballSpeed}<span class="result-unit">mph</span></div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Launch</div>
+                    <div class="result-value">${data.launchAngle}<span class="result-unit">°</span></div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Spin</div>
+                    <div class="result-value">${data.spinRate}<span class="result-unit">rpm</span></div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Height</div>
+                    <div class="result-value">${data.height}<span class="result-unit">ft</span></div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Land Angle</div>
+                    <div class="result-value">${data.landAngle}<span class="result-unit">°</span></div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Dyn Loft</div>
+                    <div class="result-value">${data.dynamicLoft}<span class="result-unit">°</span></div>
+                </div>
+            </div>`;
+    }
+
+    // ================================================================
+    //  CLUB FACE TAB LOGIC
+    // ================================================================
+    function setFaceClub(club) {
+        faceClub = club;
+        document.querySelectorAll('.face-club-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-club') === club);
+        });
+        const s = document.getElementById('faceClubSpeed');
+        if (club==='driver')     { s.min=60; s.max=140; s.value=100; }
+        else if (club==='iron7') { s.min=50; s.max=120; s.value=85; }
+        else if (club==='pw')    { s.min=40; s.max=110; s.value=75; }
+        document.getElementById('faceSpeedMin').textContent = s.min+' mph';
+        document.getElementById('faceSpeedMax').textContent = s.max+' mph';
+        calculateFaceResults();
+    }
+
+    function getFaceCarry(club, speed) {
+        // Use carry data at 0° attack angle for neutral carry reference
+        const ds = clubData[club].carry;
+        const attackAngle = club==='driver' ? 0 : club==='iron7' ? -3 : -5;
+        const data = getInterpolatedData(speed, attackAngle, ds);
+        return data.carry;
+    }
+
+    function calculateFaceResults() {
+        const speed = parseFloat(document.getElementById('faceClubSpeed').value);
+        const faceAngle = parseFloat(document.getElementById('faceAngle').value);
+
+        document.getElementById('faceClubSpeedValue').textContent = speed+' mph';
+        document.getElementById('faceAngleSliderValue').textContent = (faceAngle >= 0 ? '+' : '') + faceAngle + '°';
+
+        const carry = getFaceCarry(faceClub, speed);
+        const coeff = faceCoeff[faceClub];
+        // Positive face = open = right (for RH); negative = closed = left
+        const lateral = carry * faceAngle * coeff; // signed: + is right, - is left
+
+        // Update face angle display
+        const faceAngleDisplay = document.getElementById('faceAngleDisplay');
+        if (faceAngle < 0) {
+            faceAngleDisplay.textContent = `Closed (${faceAngle}°)`;
+            faceAngleDisplay.className = 'face-angle-display closed';
+        } else if (faceAngle > 0) {
+            faceAngleDisplay.textContent = `Open (+${faceAngle}°)`;
+            faceAngleDisplay.className = 'face-angle-display open';
+        } else {
+            faceAngleDisplay.textContent = 'Square (0°)';
+            faceAngleDisplay.className = 'face-angle-display square';
+        }
+
+        // Update stats
+        document.getElementById('faceCarryVal').innerHTML = Math.round(carry)+'<span class="face-stat-unit">yds</span>';
+
+        const lateralAbs = Math.abs(lateral);
+        const lateralCard = document.getElementById('faceLateralCard');
+        const dirCard = document.getElementById('faceDirCard');
+
+        document.getElementById('faceLateralVal').innerHTML = lateralAbs.toFixed(1)+'<span class="face-stat-unit">yds</span>';
+
+        const clubLabel = faceClub==='driver'?'Driver':faceClub==='iron7'?'7 Iron':'PW';
+        document.getElementById('faceTitle').textContent = clubLabel+' — Club Face';
+
+        if (lateral < -0.1) {
+            lateralCard.className='face-stat-card highlight-left';
+            dirCard.className='face-stat-card highlight-left';
+            document.getElementById('faceDirVal').textContent = '← Left';
+        } else if (lateral > 0.1) {
+            lateralCard.className='face-stat-card highlight-right';
+            dirCard.className='face-stat-card highlight-right';
+            document.getElementById('faceDirVal').textContent = 'Right →';
+        } else {
+            lateralCard.className='face-stat-card highlight-straight';
+            dirCard.className='face-stat-card highlight-straight';
+            document.getElementById('faceDirVal').textContent = 'Straight';
+        }
+
+        drawFaceCanvas(carry, lateral);
+    }
+
+    function drawFaceCanvas(carry, lateral) {
+        const canvas = document.getElementById('faceCanvas');
+        const container = canvas.parentElement;
+        const dpr = window.devicePixelRatio || 1;
+
+        // Fixed yard dimensions — never change
+        const GRID_MAX_DIST  = 350;  // yards down the field
+        const GRID_MAX_LAT   = 65;   // yards each side (±65)
+        const FAIRWAY_HALF   = 20;   // yards (40yd wide fairway)
+
+        // CSS size
+        const cssW = container.clientWidth  || 300;
+        const cssH = container.clientHeight || Math.round(cssW * (390/155));
+
+        // Physical pixels (hi-DPI)
+        canvas.width  = Math.round(cssW * dpr);
+        canvas.height = Math.round(cssH * dpr);
+        canvas.style.width  = cssW + 'px';
+        canvas.style.height = cssH + 'px';
+
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        const W = cssW;
+        const H = cssH;
+
+        // Margins (in CSS px)
+        const ML = 40;  // left  — yardage labels
+        const MR = 10;  // right
+        const MT = 14;  // top
+        const MB = 36;  // bottom — player icon
+
+        const drawW = W - ML - MR;
+        const drawH = H - MT - MB;
+
+        // Scales — fixed, never change with ball position
+        const xScale = drawW / (GRID_MAX_LAT * 2); // px per yard lateral
+        const yScale = drawH / GRID_MAX_DIST;        // px per yard downfield
+
+        // Coordinate helpers
+        const toX = (lateralYds) => ML + (lateralYds + GRID_MAX_LAT) * xScale;
+        const toY = (distYds)    => MT + drawH - distYds * yScale;
+
+        const cx = toX(0);
+        const playerY = toY(0);
+        const horizonY = toY(GRID_MAX_DIST);
+
+        // ── Background ─────────────────────────────────────────────
+        const bgGrad = ctx.createLinearGradient(0, horizonY, 0, playerY);
+        bgGrad.addColorStop(0, '#091409');
+        bgGrad.addColorStop(1, '#0d1a0d');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, W, H);
+
+        // ── Rough bands (outside fairway) ──────────────────────────
+        ctx.fillStyle = 'rgba(10,30,10,0.6)';
+        ctx.fillRect(ML, horizonY, drawW, drawH);
+
+        // ── Fairway strip ──────────────────────────────────────────
+        const fwLeft  = toX(-FAIRWAY_HALF);
+        const fwRight = toX( FAIRWAY_HALF);
+        const fwGrad = ctx.createLinearGradient(fwLeft, 0, fwRight, 0);
+        fwGrad.addColorStop(0,   'rgba(20,80,20,0)');
+        fwGrad.addColorStop(0.1, 'rgba(28,100,28,0.55)');
+        fwGrad.addColorStop(0.5, 'rgba(34,115,34,0.65)');
+        fwGrad.addColorStop(0.9, 'rgba(28,100,28,0.55)');
+        fwGrad.addColorStop(1,   'rgba(20,80,20,0)');
+        ctx.fillStyle = fwGrad;
+        ctx.fillRect(fwLeft, horizonY, fwRight - fwLeft, drawH);
+
+        // Fairway edge lines (soft)
+        ctx.setLineDash([6, 6]);
+        ctx.strokeStyle = 'rgba(80,160,80,0.35)';
+        ctx.lineWidth = 1;
+        [fwLeft, fwRight].forEach(x => {
+            ctx.beginPath(); ctx.moveTo(x, horizonY); ctx.lineTo(x, playerY); ctx.stroke();
+        });
+        ctx.setLineDash([]);
+
+        // ── Clip drawing area so labels don't bleed ────────────────
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(ML, horizonY, drawW, drawH + 2);
+        ctx.clip();
+
+        // ── Horizontal distance grid lines (every 50 yds) ──────────
+        ctx.lineWidth = 1;
+        for (let d = 50; d <= GRID_MAX_DIST; d += 50) {
+            const py = toY(d);
+            const isMajor = d % 100 === 0;
+            ctx.strokeStyle = isMajor ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.07)';
+            ctx.beginPath(); ctx.moveTo(ML, py); ctx.lineTo(W - MR, py); ctx.stroke();
+        }
+
+        // ── Vertical lateral grid lines (every 20 yds) ─────────────
+        for (let l = -60; l <= 60; l += 20) {
+            if (l === 0) continue;
+            const px = toX(l);
+            ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(px, horizonY); ctx.lineTo(px, playerY); ctx.stroke();
+        }
+
+        ctx.restore();
+
+        // ── Center target line ─────────────────────────────────────
+        ctx.setLineDash([7, 7]);
+        ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(cx, playerY); ctx.lineTo(cx, horizonY); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // ── Y-axis labels (yardage) ────────────────────────────────
+        ctx.font = `600 ${Math.round(W * 0.033)}px Segoe UI`;
+        ctx.fillStyle = 'rgba(255,255,255,0.35)';
+        ctx.textAlign = 'right';
+        for (let d = 50; d <= GRID_MAX_DIST; d += 50) {
+            ctx.fillText(d, ML - 4, toY(d) + 4);
+        }
+        ctx.textAlign = 'left';
+
+        // ── X-axis labels (lateral yards, bottom) ─────────────────
+        ctx.font = `${Math.round(W * 0.03)}px Segoe UI`;
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        ctx.textAlign = 'center';
+        for (let l = -60; l <= 60; l += 20) {
+            if (l === 0) continue;
+            ctx.fillText((l > 0 ? '+' : '') + l, toX(l), playerY + 14);
+        }
+        ctx.textAlign = 'left';
+
+        // ── Fairway width label ───────────────────────────────────
+        ctx.font = `${Math.round(W * 0.028)}px Segoe UI`;
+        ctx.fillStyle = 'rgba(80,180,80,0.5)';
+        ctx.textAlign = 'center';
+        ctx.fillText('← 40yd fairway →', cx, horizonY + 14);
+        ctx.textAlign = 'left';
+
+        // ── Ball flight arc ────────────────────────────────────────
+        const ballEndX = toX(lateral);
+        const ballEndY = toY(carry);
+
+        // Arc control point: starts straight then bends
+        const cpX = toX(lateral * 0.12);
+        const cpY = toY(carry * 0.52);
+
+        const arcColor = lateral < -0.5 ? '#4d9eff' : lateral > 0.5 ? '#ff7755' : '#44ee88';
+
+        // Glow pass
+        ctx.save();
+        ctx.shadowColor = arcColor;
+        ctx.shadowBlur = 12;
+        const arcGrad = ctx.createLinearGradient(cx, playerY, ballEndX, ballEndY);
+        arcGrad.addColorStop(0, 'rgba(255,255,255,0.75)');
+        arcGrad.addColorStop(1, arcColor);
+        ctx.strokeStyle = arcGrad;
+        ctx.lineWidth = 3;
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(cx, playerY);
+        ctx.quadraticCurveTo(cpX, cpY, ballEndX, ballEndY);
+        ctx.stroke();
+        ctx.restore();
+
+        // ── Landing spot ───────────────────────────────────────────
+        // Outer glow ring
+        ctx.save();
+        ctx.shadowColor = arcColor;
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.arc(ballEndX, ballEndY, 9, 0, Math.PI * 2);
+        ctx.fillStyle = arcColor;
+        ctx.fill();
+        ctx.restore();
+        // Inner white dot
+        ctx.beginPath();
+        ctx.arc(ballEndX, ballEndY, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+
+        // ── Landing label ──────────────────────────────────────────
+        const lateralAbs = Math.abs(lateral);
+        if (lateralAbs > 0.3) {
+            const isLeft = lateral < 0;
+            const lbl = lateralAbs.toFixed(1) + ' yds ' + (isLeft ? '←' : '→');
+            const lblX = ballEndX + (isLeft ? -14 : 14);
+            const lblY = ballEndY - 14;
+            ctx.font = `bold ${Math.round(W * 0.037)}px Segoe UI`;
+            ctx.textAlign = isLeft ? 'right' : 'left';
+            // Shadow for readability
+            ctx.fillStyle = 'rgba(0,0,0,0.7)';
+            ctx.fillText(lbl, lblX + 1, lblY + 1);
+            ctx.fillStyle = arcColor;
+            ctx.fillText(lbl, lblX, lblY);
+            ctx.textAlign = 'left';
+        }
+
+        // ── Distance label ─────────────────────────────────────────
+        {
+            const dLbl = Math.round(carry) + ' yds';
+            const dX = ballEndX + (lateral < 0 ? 12 : -12);
+            const dY = ballEndY + 18;
+            ctx.font = `${Math.round(W * 0.032)}px Segoe UI`;
+            ctx.textAlign = lateral < 0 ? 'left' : 'right';
+            ctx.fillStyle = 'rgba(0,0,0,0.6)';
+            ctx.fillText(dLbl, dX + 1, dY + 1);
+            ctx.fillStyle = 'rgba(255,255,255,0.75)';
+            ctx.fillText(dLbl, dX, dY);
+            ctx.textAlign = 'left';
+        }
+
+        // ── Target flag ────────────────────────────────────────────
+        const flagX = cx;
+        const flagY = horizonY + 8;
+        ctx.fillStyle = 'rgba(255,255,255,0.45)';
+        ctx.fillRect(flagX - 1, flagY, 2, 20);
+        ctx.beginPath();
+        ctx.moveTo(flagX, flagY);
+        ctx.lineTo(flagX + 16, flagY + 6);
+        ctx.lineTo(flagX, flagY + 13);
+        ctx.fillStyle = '#ff3333';
+        ctx.fill();
+
+        // ── Player icon (bottom center) ────────────────────────────
+        const pR = 6;
+        ctx.beginPath();
+        ctx.arc(cx, playerY, pR, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx, playerY, pR * 0.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fill();
+
+        // ── Border ─────────────────────────────────────────────────
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(ML, horizonY, drawW, drawH);
+    }
+
+    // ================================================================
+    //  INIT
+    // ================================================================
+    calculateResults();
+
+    // Redraw canvas on window resize for crisp hi-DPI rendering
+    window.addEventListener('resize', () => {
+        if (document.getElementById('tab-face').classList.contains('active')) {
+            calculateFaceResults();
+        }
+    });
     </script>
 </body>
 </html>
