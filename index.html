@@ -8,12 +8,14 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { height: 100%; }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #000000;
             min-height: 100dvh;
             padding: 10px;
         }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -22,6 +24,7 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             overflow: hidden;
         }
+
         .header {
             background: #2a2a2a;
             padding: 20px;
@@ -29,9 +32,12 @@
             color: white;
             border-bottom: 2px solid #333;
         }
+
         .header h1 { font-size: 1.6em; }
+
         .content { padding: 15px; }
         .control-group { margin-bottom: 15px; }
+
         label {
             display: block;
             font-weight: 600;
@@ -39,6 +45,7 @@
             margin-bottom: 8px;
             font-size: 0.95em;
         }
+
         select, input[type="number"] {
             width: 100%;
             padding: 10px;
@@ -50,17 +57,21 @@
             color: #ffffff;
             font-family: inherit;
         }
+
         select:focus, input[type="number"]:focus {
             outline: none;
             border-color: #ffffff;
             box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
         }
+
         input[type="number"] { font-weight: 600; }
         .input-hint { font-size: 0.75em; color: #888; margin-top: 3px; }
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .input-column { display: flex; flex-direction: column; }
+
         .btn-group { display: grid; gap: 8px; margin-bottom: 8px; }
         .mode-buttons { grid-template-columns: 1fr 1fr 1fr; }
+
         .toggle-btn {
             padding: 10px;
             background: #2a2a2a;
@@ -74,13 +85,17 @@
             text-align: center;
             font-family: inherit;
         }
+
         .toggle-btn:hover { border-color: #555; color: #ccc; }
+
         .toggle-btn.active {
             background: #ffffff;
             color: #000000;
             border-color: #ffffff;
         }
+
         .slider-container { position: relative; padding: 5px 0; }
+
         .current-value-display {
             font-weight: 700;
             color: #ffffff;
@@ -89,11 +104,13 @@
             position: absolute;
             left: 0; right: 0; top: 0;
         }
+
         .slider-header {
             position: relative;
             margin-bottom: 8px;
             height: 20px;
         }
+
         .slider-label {
             font-weight: 600;
             color: #e0e0e0;
@@ -102,6 +119,7 @@
             position: relative;
             z-index: 1;
         }
+
         .value-display {
             display: flex;
             justify-content: space-between;
@@ -109,6 +127,7 @@
             font-size: 0.85em;
             color: #999;
         }
+
         input[type="range"] {
             -webkit-appearance: none;
             appearance: none;
@@ -119,6 +138,7 @@
             outline: none;
             padding: 0;
         }
+
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -130,7 +150,9 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             transition: transform 0.2s;
         }
+
         input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
         /* RESULTS */
         .results {
             background: #2a2a2a;
@@ -139,6 +161,7 @@
             margin-bottom: 15px;
             border: 1px solid #333;
         }
+
         .results h2 {
             color: #ffffff;
             margin-bottom: 12px;
@@ -146,11 +169,13 @@
             text-align: center;
             text-transform: capitalize;
         }
+
         .results-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
+
         .result-card {
             background: #1a1a1a;
             padding: 12px;
@@ -159,18 +184,23 @@
             text-align: center;
             border: 1px solid #333;
         }
+
         .result-label { font-size: 0.75em; color: #999; margin-bottom: 4px; }
+
         .result-value {
             font-size: 1.6em;
             font-weight: 700;
             color: #ffffff;
             line-height: 1;
         }
+
         .result-unit { font-size: 0.6em; color: #888; margin-left: 2px; }
+
         .distance-highlight { background: #ffffff; color: #000000; }
         .distance-highlight .result-label { color: #666; }
         .distance-highlight .result-value { color: #000000; font-size: 2em; }
         .distance-highlight .result-unit { color: #666; }
+
         /* Club type label */
         .club-type-label {
             font-size: 0.7em;
@@ -179,8 +209,10 @@
             margin-top: -4px;
             margin-bottom: 8px;
         }
+
         @media (max-width: 600px) {
             body { padding: 0; height: 100dvh; display: flex; flex-direction: column; }
+
             .container {
                 flex: 1;
                 display: flex;
@@ -189,8 +221,10 @@
                 height: 100dvh;
                 max-width: 100%;
             }
+
             .header { padding: 8px 12px; }
             .header h1 { font-size: 1.1em; }
+
             .content {
                 flex: 1;
                 overflow-y: auto;
@@ -199,6 +233,7 @@
                 flex-direction: column;
                 gap: 0;
             }
+
             .results { padding: 8px; margin-bottom: 8px; }
             .results h2 { font-size: 0.9em; margin-bottom: 6px; }
             .results-grid { grid-template-columns: repeat(4, 1fr); gap: 5px; }
@@ -207,6 +242,7 @@
             .result-value { font-size: 1.15em; }
             .result-unit { font-size: 0.55em; }
             .distance-highlight .result-value { font-size: 1.4em; }
+
             .control-group { margin-bottom: 8px; }
             label { font-size: 0.82em; margin-bottom: 4px; }
             .toggle-btn { padding: 7px 4px; font-size: 12px; border-radius: 8px; }
@@ -227,11 +263,13 @@
         <div class="header">
             <h1>Bag Optimizer <span style="font-size:0.5em;font-weight:normal;opacity:0.7;">v2.5</span></h1>
         </div>
+
         <div class="content">
             <div class="results" id="results">
                 <h2>Optimal Results</h2>
                 <div class="no-data">Adjust the settings to see results</div>
             </div>
+
             <div class="control-group">
                 <label for="clubSelect">Club Selection</label>
                 <select id="clubSelect" onchange="onClubChange()">
@@ -263,6 +301,7 @@
                     </optgroup>
                 </select>
             </div>
+
             <div class="control-group">
                 <label>Optimization Mode</label>
                 <div class="btn-group mode-buttons">
@@ -271,6 +310,7 @@
                     <button id="modeBtn3" class="toggle-btn mode-btn" data-mode="both" onclick="setOptimizeMode(this.getAttribute('data-mode'))">Carry+Total</button>
                 </div>
             </div>
+
             <div class="control-group">
                 <div class="input-row">
                     <div class="input-column">
@@ -285,6 +325,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="control-group">
                 <div class="slider-container">
                     <div class="slider-header">
@@ -298,6 +339,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="control-group">
                 <div class="slider-container">
                     <div class="slider-header">
@@ -313,6 +355,7 @@
             </div>
         </div>
     </div>
+
 <script>
 // ================================================================
 //  CLUB METADATA — speeds, defaults, labels, categories
@@ -339,6 +382,7 @@ const clubMeta = {
     '58':   { label:'58°',      cat:'wedge', minSpd:30,  maxSpd:85,  defSpd:64,  defAA:-5,  heightC:-30, landC:-6 },
     '60':   { label:'60°',      cat:'wedge', minSpd:30,  maxSpd:80,  defSpd:62,  defAA:-5,  heightC:-32, landC:-6 }
 };
+
 // ================================================================
 //  DATA — carry and total tables per club
 //  Keys: clubSpeed → attackAngle ('-5','0','5')
@@ -371,6 +415,7 @@ const clubData = {
             120:{'-5':{ballSpeed:178,launchAngle:4.5,spinRate:2929,carry:273,total:322,dynamicLoft:6.2},'0':{ballSpeed:179,launchAngle:7.7,spinRate:2382,carry:290,total:340,dynamicLoft:9.0},'5':{ballSpeed:180,launchAngle:10.3,spinRate:1636,carry:300,total:358,dynamicLoft:11.3}}
         }
     },
+
     '3w': {
         carry: {
             75:{'-5':{ballSpeed:103,launchAngle:10.8,spinRate:4100,carry:140,total:158,dynamicLoft:14.5},'0':{ballSpeed:105,launchAngle:13.2,spinRate:3600,carry:150,total:168,dynamicLoft:16.5},'5':{ballSpeed:106,launchAngle:15.8,spinRate:3100,carry:158,total:176,dynamicLoft:18.8}},
@@ -387,6 +432,7 @@ const clubData = {
             115:{'-5':{ballSpeed:165,launchAngle:6.4,spinRate:3200,carry:246,total:292,dynamicLoft:8.8},'0':{ballSpeed:167,launchAngle:9.0,spinRate:2600,carry:258,total:307,dynamicLoft:10.8},'5':{ballSpeed:168,launchAngle:11.5,spinRate:2000,carry:268,total:322,dynamicLoft:13.0}}
         }
     },
+
     '4w': {
         carry: {
             75:{'-5':{ballSpeed:101,launchAngle:11.5,spinRate:4400,carry:135,total:152,dynamicLoft:15.5},'0':{ballSpeed:103,launchAngle:14.0,spinRate:3900,carry:144,total:161,dynamicLoft:17.5},'5':{ballSpeed:104,launchAngle:16.5,spinRate:3400,carry:152,total:169,dynamicLoft:19.8}},
@@ -403,6 +449,7 @@ const clubData = {
             115:{'-5':{ballSpeed:163,launchAngle:7.1,spinRate:3500,carry:237,total:282,dynamicLoft:9.8},'0':{ballSpeed:165,launchAngle:9.5,spinRate:2900,carry:249,total:297,dynamicLoft:11.8},'5':{ballSpeed:166,launchAngle:12.0,spinRate:2300,carry:259,total:311,dynamicLoft:14.0}}
         }
     },
+
     '5w': {
         carry: {
             70:{'-5':{ballSpeed:93,launchAngle:12.5,spinRate:4800,carry:122,total:136,dynamicLoft:17.0},'0':{ballSpeed:95,launchAngle:15.0,spinRate:4300,carry:130,total:144,dynamicLoft:19.0},'5':{ballSpeed:96,launchAngle:17.5,spinRate:3800,carry:137,total:151,dynamicLoft:21.3}},
@@ -419,6 +466,7 @@ const clubData = {
             110:{'-5':{ballSpeed:155,launchAngle:8.0,spinRate:3900,carry:228,total:271,dynamicLoft:11.0},'0':{ballSpeed:157,launchAngle:10.4,spinRate:3300,carry:240,total:286,dynamicLoft:13.0},'5':{ballSpeed:158,launchAngle:12.9,spinRate:2700,carry:250,total:300,dynamicLoft:15.3}}
         }
     },
+
     '2i': {
         carry: {
             70:{'-5':{ballSpeed:91,launchAngle:11.0,spinRate:5000,carry:112,total:125,dynamicLoft:16.5},'0':{ballSpeed:93,launchAngle:13.5,spinRate:4500,carry:120,total:133,dynamicLoft:18.5},'5':{ballSpeed:91,launchAngle:16.0,spinRate:4000,carry:114,total:128,dynamicLoft:21.0}},
@@ -435,6 +483,7 @@ const clubData = {
             110:{'-5':{ballSpeed:147,launchAngle:13.0,spinRate:5800,carry:216,total:236,dynamicLoft:18.5},'0':{ballSpeed:149,launchAngle:15.5,spinRate:5300,carry:228,total:248,dynamicLoft:20.5},'5':{ballSpeed:147,launchAngle:18.0,spinRate:4800,carry:218,total:239,dynamicLoft:23.0}}
         }
     },
+
     '3i': {
         carry: {
             65:{'-5':{ballSpeed:84,launchAngle:11.5,spinRate:5400,carry:103,total:114,dynamicLoft:17.0},'0':{ballSpeed:86,launchAngle:14.0,spinRate:4900,carry:110,total:121,dynamicLoft:19.0},'5':{ballSpeed:84,launchAngle:16.5,spinRate:4400,carry:104,total:116,dynamicLoft:21.5}},
@@ -451,6 +500,7 @@ const clubData = {
             105:{'-5':{ballSpeed:140,launchAngle:13.5,spinRate:6200,carry:203,total:221,dynamicLoft:19.0},'0':{ballSpeed:142,launchAngle:16.0,spinRate:5700,carry:214,total:232,dynamicLoft:21.0},'5':{ballSpeed:140,launchAngle:18.5,spinRate:5200,carry:204,total:223,dynamicLoft:23.5}}
         }
     },
+
     '4i': {
         carry: {
             60:{'-5':{ballSpeed:79,launchAngle:12.0,spinRate:5800,carry:94,total:104,dynamicLoft:17.5},'0':{ballSpeed:81,launchAngle:14.5,spinRate:5300,carry:100,total:111,dynamicLoft:19.5},'5':{ballSpeed:79,launchAngle:17.0,spinRate:4800,carry:94,total:106,dynamicLoft:22.0}},
@@ -467,6 +517,7 @@ const clubData = {
             100:{'-5':{ballSpeed:135,launchAngle:14.0,spinRate:6600,carry:190,total:208,dynamicLoft:19.5},'0':{ballSpeed:137,launchAngle:16.5,spinRate:6100,carry:201,total:219,dynamicLoft:21.5},'5':{ballSpeed:135,launchAngle:19.0,spinRate:5600,carry:191,total:210,dynamicLoft:24.0}}
         }
     },
+
     '5i': {
         carry: {
             60:{'-5':{ballSpeed:79,launchAngle:12.5,spinRate:6000,carry:93,total:103,dynamicLoft:18.0},'0':{ballSpeed:80,launchAngle:15.0,spinRate:5500,carry:99,total:110,dynamicLoft:20.0},'5':{ballSpeed:78,launchAngle:17.5,spinRate:5000,carry:93,total:104,dynamicLoft:22.5}},
@@ -483,6 +534,7 @@ const clubData = {
             100:{'-5':{ballSpeed:135,launchAngle:14.5,spinRate:6800,carry:189,total:206,dynamicLoft:20.0},'0':{ballSpeed:136,launchAngle:17.0,spinRate:6300,carry:199,total:216,dynamicLoft:22.0},'5':{ballSpeed:134,launchAngle:19.5,spinRate:5800,carry:190,total:207,dynamicLoft:24.5}}
         }
     },
+
     '6i': {
         carry: {
             60:{'-5':{ballSpeed:79,launchAngle:13.0,spinRate:6100,carry:92,total:102,dynamicLoft:18.5},'0':{ballSpeed:80,launchAngle:15.5,spinRate:5600,carry:97,total:108,dynamicLoft:20.5},'5':{ballSpeed:78,launchAngle:18.0,spinRate:5100,carry:91,total:102,dynamicLoft:23.0}},
@@ -499,6 +551,7 @@ const clubData = {
             100:{'-5':{ballSpeed:135,launchAngle:15.0,spinRate:6900,carry:188,total:204,dynamicLoft:20.5},'0':{ballSpeed:136,launchAngle:17.5,spinRate:6400,carry:198,total:214,dynamicLoft:22.5},'5':{ballSpeed:134,launchAngle:20.0,spinRate:5900,carry:189,total:205,dynamicLoft:25.0}}
         }
     },
+
     '7i': {
         carry: {
             60:{'-5':{ballSpeed:79,launchAngle:12.5,spinRate:6200,carry:95,total:105,dynamicLoft:18.0},'0':{ballSpeed:80,launchAngle:15.0,spinRate:5800,carry:98,total:109,dynamicLoft:20.5},'5':{ballSpeed:78,launchAngle:17.5,spinRate:5300,carry:92,total:104,dynamicLoft:23.0}},
@@ -515,6 +568,7 @@ const clubData = {
             100:{'-5':{ballSpeed:132,launchAngle:16.2,spinRate:7400,carry:192,total:205,dynamicLoft:23.5},'0':{ballSpeed:134,launchAngle:18.5,spinRate:6800,carry:198,total:211,dynamicLoft:26.0},'5':{ballSpeed:131,launchAngle:21.0,spinRate:6200,carry:189,total:202,dynamicLoft:28.5}}
         }
     },
+
     '8i': {
         carry: {
             55:{'-5':{ballSpeed:70,launchAngle:16.0,spinRate:7000,carry:79,total:86,dynamicLoft:24.0},'0':{ballSpeed:71,launchAngle:18.5,spinRate:6600,carry:82,total:89,dynamicLoft:26.5},'5':{ballSpeed:69,launchAngle:21.0,spinRate:6100,carry:77,total:84,dynamicLoft:29.0}},
@@ -531,6 +585,7 @@ const clubData = {
             95:{'-5':{ballSpeed:125,launchAngle:18.0,spinRate:7800,carry:167,total:181,dynamicLoft:26.0},'0':{ballSpeed:126,launchAngle:20.5,spinRate:7400,carry:173,total:187,dynamicLoft:28.5},'5':{ballSpeed:124,launchAngle:23.0,spinRate:6900,carry:165,total:180,dynamicLoft:31.0}}
         }
     },
+
     '9i': {
         carry: {
             50:{'-5':{ballSpeed:63,launchAngle:18.0,spinRate:7600,carry:70,total:75,dynamicLoft:28.0},'0':{ballSpeed:64,launchAngle:20.5,spinRate:7200,carry:73,total:78,dynamicLoft:30.5},'5':{ballSpeed:62,launchAngle:23.0,spinRate:6700,carry:68,total:73,dynamicLoft:33.0}},
@@ -547,6 +602,7 @@ const clubData = {
             90:{'-5':{ballSpeed:115,launchAngle:20.0,spinRate:8400,carry:156,total:169,dynamicLoft:30.0},'0':{ballSpeed:116,launchAngle:22.5,spinRate:8000,carry:162,total:175,dynamicLoft:32.5},'5':{ballSpeed:114,launchAngle:25.0,spinRate:7500,carry:154,total:168,dynamicLoft:35.0}}
         }
     },
+
     pw: {
         carry: {
             50:{'-5':{ballSpeed:61,launchAngle:19.0,spinRate:7800,carry:68,total:70,dynamicLoft:30.0},'0':{ballSpeed:62,launchAngle:22.0,spinRate:7400,carry:70,total:72,dynamicLoft:33.0},'5':{ballSpeed:60,launchAngle:25.0,spinRate:6800,carry:65,total:67,dynamicLoft:36.0}},
@@ -563,6 +619,7 @@ const clubData = {
             90:{'-5':{ballSpeed:109,launchAngle:23.0,spinRate:9700,carry:148,total:155,dynamicLoft:35.5},'0':{ballSpeed:110,launchAngle:26.0,spinRate:9300,carry:153,total:160,dynamicLoft:38.5},'5':{ballSpeed:107,launchAngle:29.0,spinRate:8700,carry:145,total:152,dynamicLoft:41.5}}
         }
     },
+
     '48': {
         carry: {
             45:{'-5':{ballSpeed:55,launchAngle:20.0,spinRate:8200,carry:59,total:61,dynamicLoft:32.0},'0':{ballSpeed:56,launchAngle:23.0,spinRate:7800,carry:61,total:63,dynamicLoft:35.0},'5':{ballSpeed:54,launchAngle:26.0,spinRate:7200,carry:57,total:59,dynamicLoft:38.0}},
@@ -579,6 +636,7 @@ const clubData = {
             85:{'-5':{ballSpeed:103,launchAngle:24.0,spinRate:9800,carry:138,total:145,dynamicLoft:36.0},'0':{ballSpeed:104,launchAngle:27.0,spinRate:9400,carry:143,total:150,dynamicLoft:39.0},'5':{ballSpeed:102,launchAngle:30.0,spinRate:8800,carry:136,total:143,dynamicLoft:42.0}}
         }
     },
+
     '50': {
         carry: {
             45:{'-5':{ballSpeed:54,launchAngle:21.0,spinRate:8600,carry:56,total:58,dynamicLoft:33.5},'0':{ballSpeed:55,launchAngle:24.0,spinRate:8200,carry:58,total:60,dynamicLoft:36.5},'5':{ballSpeed:53,launchAngle:27.0,spinRate:7600,carry:54,total:56,dynamicLoft:39.5}},
@@ -595,6 +653,7 @@ const clubData = {
             85:{'-5':{ballSpeed:102,launchAngle:25.0,spinRate:10200,carry:132,total:139,dynamicLoft:37.5},'0':{ballSpeed:103,launchAngle:28.0,spinRate:9800,carry:137,total:144,dynamicLoft:40.5},'5':{ballSpeed:101,launchAngle:31.0,spinRate:9200,carry:130,total:137,dynamicLoft:43.5}}
         }
     },
+
     '52': {
         carry: {
             40:{'-5':{ballSpeed:48,launchAngle:22.0,spinRate:9000,carry:48,total:49,dynamicLoft:35.0},'0':{ballSpeed:49,launchAngle:25.0,spinRate:8600,carry:50,total:51,dynamicLoft:38.0},'5':{ballSpeed:47,launchAngle:28.0,spinRate:8000,carry:46,total:47,dynamicLoft:41.0}},
@@ -611,6 +670,7 @@ const clubData = {
             80:{'-5':{ballSpeed:96,launchAngle:26.0,spinRate:10600,carry:122,total:129,dynamicLoft:39.0},'0':{ballSpeed:97,launchAngle:29.0,spinRate:10200,carry:127,total:134,dynamicLoft:42.0},'5':{ballSpeed:95,launchAngle:32.0,spinRate:9600,carry:120,total:127,dynamicLoft:45.0}}
         }
     },
+
     '54': {
         carry: {
             40:{'-5':{ballSpeed:47,launchAngle:23.0,spinRate:9400,carry:45,total:46,dynamicLoft:36.5},'0':{ballSpeed:48,launchAngle:26.0,spinRate:9000,carry:47,total:48,dynamicLoft:39.5},'5':{ballSpeed:46,launchAngle:29.0,spinRate:8400,carry:43,total:44,dynamicLoft:42.5}},
@@ -627,6 +687,7 @@ const clubData = {
             80:{'-5':{ballSpeed:95,launchAngle:27.0,spinRate:11000,carry:115,total:121,dynamicLoft:40.5},'0':{ballSpeed:96,launchAngle:30.0,spinRate:10600,carry:120,total:126,dynamicLoft:43.5},'5':{ballSpeed:94,launchAngle:33.0,spinRate:10000,carry:113,total:119,dynamicLoft:46.5}}
         }
     },
+
     '56': {
         carry: {
             35:{'-5':{ballSpeed:41,launchAngle:24.0,spinRate:9800,carry:37,total:38,dynamicLoft:38.0},'0':{ballSpeed:42,launchAngle:27.0,spinRate:9400,carry:39,total:40,dynamicLoft:41.0},'5':{ballSpeed:40,launchAngle:30.0,spinRate:8800,carry:36,total:37,dynamicLoft:44.0}},
@@ -643,6 +704,7 @@ const clubData = {
             75:{'-5':{ballSpeed:89,launchAngle:28.0,spinRate:11400,carry:105,total:111,dynamicLoft:42.0},'0':{ballSpeed:90,launchAngle:31.0,spinRate:11000,carry:109,total:115,dynamicLoft:45.0},'5':{ballSpeed:88,launchAngle:34.0,spinRate:10400,carry:103,total:109,dynamicLoft:48.0}}
         }
     },
+
     '58': {
         carry: {
             35:{'-5':{ballSpeed:40,launchAngle:25.0,spinRate:10200,carry:34,total:35,dynamicLoft:39.5},'0':{ballSpeed:41,launchAngle:28.0,spinRate:9800,carry:36,total:37,dynamicLoft:42.5},'5':{ballSpeed:39,launchAngle:31.0,spinRate:9200,carry:33,total:34,dynamicLoft:45.5}},
@@ -659,6 +721,7 @@ const clubData = {
             75:{'-5':{ballSpeed:88,launchAngle:29.0,spinRate:11800,carry:99,total:105,dynamicLoft:43.5},'0':{ballSpeed:89,launchAngle:32.0,spinRate:11400,carry:103,total:109,dynamicLoft:46.5},'5':{ballSpeed:87,launchAngle:35.0,spinRate:10800,carry:97,total:103,dynamicLoft:49.5}}
         }
     },
+
     '60': {
         carry: {
             30:{'-5':{ballSpeed:34,launchAngle:26.0,spinRate:10600,carry:27,total:28,dynamicLoft:41.0},'0':{ballSpeed:35,launchAngle:29.0,spinRate:10200,carry:29,total:30,dynamicLoft:44.0},'5':{ballSpeed:33,launchAngle:32.0,spinRate:9600,carry:26,total:27,dynamicLoft:47.0}},
@@ -676,6 +739,7 @@ const clubData = {
         }
     }
 };
+
 // ================================================================
 //  EXTRAPOLATION
 // ================================================================
@@ -686,6 +750,7 @@ function extrapolateData(dataSet) {
     const maxSpeed = speeds[speeds.length-1];
     const step = speeds[1] - speeds[0];
     const angles = ['-5','0','5'];
+
     for (let speed = 20; speed < minSpeed; speed++) {
         dataSet[speed] = {};
         angles.forEach(angle => {
@@ -698,6 +763,7 @@ function extrapolateData(dataSet) {
             }
         });
     }
+
     for (let speed = maxSpeed+1; speed <= 160; speed++) {
         dataSet[speed] = {};
         angles.forEach(angle => {
@@ -712,10 +778,12 @@ function extrapolateData(dataSet) {
     }
     return dataSet;
 }
+
 Object.keys(clubData).forEach(club => {
     extrapolateData(clubData[club].carry);
     extrapolateData(clubData[club].total);
 });
+
 // ================================================================
 //  STATE
 // ================================================================
@@ -723,6 +791,7 @@ let manualBallSpeed = false;
 let manualSmashFactor = false;
 let currentMode = 'carry';
 let currentClub = 'driver';
+
 // ================================================================
 //  INTERPOLATION
 // ================================================================
@@ -732,6 +801,7 @@ function interpolate(value, val1, val2, key1, key2) {
     const ratio = (value - key1) / (key2 - key1);
     return val1 + ratio * (val2 - val1);
 }
+
 function getInterpolatedData(clubSpeed, attackAngle, dataSet) {
     const speeds = Object.keys(dataSet).map(Number).sort((a,b) => a-b);
     let lowerSpeed = speeds[0];
@@ -763,6 +833,7 @@ function getInterpolatedData(clubSpeed, attackAngle, dataSet) {
     for (let key in lsd) result[key] = interpolate(clubSpeed, lsd[key], usd[key], lowerSpeed, upperSpeed);
     return result;
 }
+
 // ================================================================
 //  CLUB CHANGE
 // ================================================================
@@ -770,6 +841,7 @@ function onClubChange() {
     const sel = document.getElementById('clubSelect');
     currentClub = sel.value;
     const meta = clubMeta[currentClub];
+
     const s = document.getElementById('clubSpeed');
     s.min = meta.minSpd;
     s.max = meta.maxSpd;
@@ -777,10 +849,12 @@ function onClubChange() {
     document.getElementById('attackAngle').value = meta.defAA;
     document.getElementById('speedMinDisplay').textContent = meta.minSpd+' mph';
     document.getElementById('speedMaxDisplay').textContent = meta.maxSpd+' mph';
+
     // Update mode buttons based on category
     const modeBtn1 = document.getElementById('modeBtn1');
     const modeBtn2 = document.getElementById('modeBtn2');
     const modeBtn3 = document.getElementById('modeBtn3');
+
     if (meta.cat === 'wood') {
         modeBtn1.textContent='Carry'; modeBtn1.setAttribute('data-mode','carry');
         modeBtn2.textContent='Total'; modeBtn2.setAttribute('data-mode','total');
@@ -792,10 +866,12 @@ function onClubChange() {
         modeBtn3.textContent='High'; modeBtn3.setAttribute('data-mode','high');
         if (['carry','total','both'].includes(currentMode)) setOptimizeMode('mid');
     }
+
     manualBallSpeed = false;
     manualSmashFactor = false;
     calculateResults();
 }
+
 function setOptimizeMode(mode) {
     currentMode = mode;
     document.querySelectorAll('.mode-btn').forEach(btn => {
@@ -803,9 +879,11 @@ function setOptimizeMode(mode) {
     });
     calculateResults();
 }
+
 function onBallSpeedManualInput() { manualBallSpeed=true; manualSmashFactor=false; calculateResults(); }
 function onSmashFactorManualInput() { manualSmashFactor=true; manualBallSpeed=false; calculateResults(); }
 function onClubSpeedOrAttackAngleChange() { manualBallSpeed=false; manualSmashFactor=false; calculateResults(); }
+
 // ================================================================
 //  CALCULATE
 // ================================================================
@@ -814,12 +892,15 @@ function calculateResults() {
     const attackAngle = parseFloat(document.getElementById('attackAngle').value);
     document.getElementById('clubSpeedValue').textContent = clubSpeed+' mph';
     document.getElementById('attackAngleValue').textContent = (attackAngle >= 0 ? '+' : '') + attackAngle+'°';
+
     if (isNaN(clubSpeed)||isNaN(attackAngle)) {
         document.getElementById('results').innerHTML = '<h2>Optimal Results</h2><div class="no-data">Please enter valid numbers</div>';
         return;
     }
+
     const meta = clubMeta[currentClub];
     let data;
+
     if (meta.cat === 'wood') {
         if (currentMode==='carry') data = getInterpolatedData(clubSpeed,attackAngle,clubData[currentClub].carry);
         else if (currentMode==='total') data = getInterpolatedData(clubSpeed,attackAngle,clubData[currentClub].total);
@@ -837,6 +918,7 @@ function calculateResults() {
         if (currentMode==='low')  { data.launchAngle-=3.5; data.dynamicLoft-=4.0; data.spinRate-=800; data.carry*=0.96; data.total=data.carry+(rollOut*1.8); }
         else if (currentMode==='high') { data.launchAngle+=3.5; data.dynamicLoft+=4.0; data.spinRate+=800; data.carry*=0.97; data.total=data.carry+(rollOut*0.3); }
     }
+
     if (!manualBallSpeed && !manualSmashFactor) {
         document.getElementById('ballSpeed').value = Math.round(data.ballSpeed);
         document.getElementById('smashFactor').value = (data.ballSpeed/clubSpeed).toFixed(2);
@@ -856,8 +938,10 @@ function calculateResults() {
             const ratio=nbs/orig; data.carry=Math.round(data.carry*ratio); data.total=Math.round(data.total*ratio);
         }
     }
+
     data.height = (data.launchAngle*3)+(data.spinRate/150)+meta.heightC;
     data.landAngle = (data.launchAngle*1.5)+(data.spinRate/300)+meta.landC;
+
     data.carry=Math.round(data.carry); data.total=Math.round(data.total);
     data.spinRate=Math.round(data.spinRate);
     data.launchAngle=data.launchAngle.toFixed(1);
@@ -865,14 +949,17 @@ function calculateResults() {
     data.ballSpeed=Math.round(data.ballSpeed);
     data.height=Math.round(data.height);
     data.landAngle=data.landAngle.toFixed(1);
+
     displayResults(data, currentMode, currentClub);
 }
+
 function displayResults(data, mode, club) {
     const resultsDiv = document.getElementById('results');
     const meta = clubMeta[club];
     let modeText = '';
     if (meta.cat==='wood') modeText=mode==='carry'?'Carry':mode==='total'?'Total':'Balanced';
     else modeText=mode==='low'?'Low Trajectory':mode==='mid'?'Mid Trajectory':'High Trajectory';
+
     resultsDiv.innerHTML = `
         <h2>${meta.label} — ${modeText}</h2>
         <div class="results-grid">
@@ -910,6 +997,7 @@ function displayResults(data, mode, club) {
             </div>
         </div>`;
 }
+
 // ================================================================
 //  INIT
 // ================================================================
